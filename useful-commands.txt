@@ -1,0 +1,1 @@
+ docker run --rm -v /opt/final-year-project/java-app:/usr/src/app -w /usr/src/app openjdk:13 java Program
