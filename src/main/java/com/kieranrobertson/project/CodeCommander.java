@@ -19,6 +19,9 @@ public class CodeCommander {
         runShellCommand("docker", "run --rm -v /opt/app:/usr/src/app -w /usr/src/app openjdk:13 java Program");
     }
 
+    /**
+     * Appears this doesnt work for the echo command.  Is it splitting it up incorrectly?  Need to implement my own.
+     */
     private void runShellCommand(String cmd, String args) {
         System.out.println("Running: " + cmd + " " + args);
         System.out.println(ProcBuilder.run(cmd, args.split(" ")));
