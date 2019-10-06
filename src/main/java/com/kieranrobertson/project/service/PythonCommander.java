@@ -28,6 +28,17 @@ public class PythonCommander {
     }
 
     private String appendTestCase(TestCase testCase) {
-        return submittedCode += "\nprint(str("+testCase.getMethodName()+"(\""+testCase.getArgument()+"\")))";
+        String placeholder = "\nprint(str("+testCase.getMethodName()+"({FIRST_ARG})))";
+        Object[] arguments = testCase.getArguments();
+
+        for (int i=0; i<arguments.length; i++) {
+            if (i==0) {
+                placeholder = placeholder.replace("{FIRST_ARG}", arguments[i].toString()+"{ARGS...}");
+            } else {
+                placeholder = placeholder.replace("{ARGS...}", ","+arguments[i].toString()+"{ARGS...}");
+            }
+        }
+        placeholder = placeholder.replace("{ARGS...}", "");
+        return submittedCode + placeholder;
     }
 }

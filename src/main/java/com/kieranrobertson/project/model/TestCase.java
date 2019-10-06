@@ -1,22 +1,23 @@
 package com.kieranrobertson.project.model;
 
 public class TestCase {
+
     private String methodName;
-    private String argument;
+    private Object[] arguments;
     private String expectedResult;
 
-    public TestCase(String methodName, String argument, String expectedResult) {
+    public TestCase(String methodName, Object[] arguments, String expectedResult) {
         this.methodName = methodName;
-        this.argument = argument;
+        this.arguments = arguments;
         this.expectedResult = expectedResult;
     }
 
-    public String getArgument() {
-        return argument;
+    public Object[] getArguments() {
+        return arguments;
     }
 
-    public void setArgument(String argument) {
-        this.argument = argument;
+    public void setArguments(Object[] arguments) {
+        this.arguments = arguments;
     }
 
     public String getExpectedResult() {
