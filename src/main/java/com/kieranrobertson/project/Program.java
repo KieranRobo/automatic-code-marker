@@ -6,7 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Program {
 
     public static void main(String[] args) {
-        CodeCommander codeCommander = new CodeCommander("test");
+        PythonCommander codeCommander = new PythonCommander("def my_function() :\n" +
+                "    return \"Hello World!\";\n" +
+                "\n" +
+                "print(my_function())");
         codeCommander.process();
     }
 }
