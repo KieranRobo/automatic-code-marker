@@ -43,7 +43,7 @@ public class CodingChallengeTests {
     @Test
     public void correctAnswerMultiArgTest() {
         Map<TestCase, TestResult> results =
-                testChallenge1.runCode("def string_test(firstWord, secondWord):\n" +
+                testChallenge2.runCode("def string_test(firstWord, secondWord):\n" +
                                 "    return firstWord+\" \" + secondWord",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
