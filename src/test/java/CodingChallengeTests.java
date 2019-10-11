@@ -11,21 +11,27 @@ import java.util.Map;
 
 public class CodingChallengeTests {
 
-    private CodingChallenge testChallenge;
+    private CodingChallenge testChallenge1, testChallenge2;
 
     @Before
     public void setUpChallenges(){
-        List<TestCase> testCases = Arrays.asList(
+        List<TestCase> testCases1 = Arrays.asList(
                 new TestCase("string_test", new String[] { "\"Hello\"" }, "Hello World"),
                 new TestCase("string_test", new String[] { "\"Where is the\"" }, "Where is the World")
         );
-        testChallenge = new CodingChallenge("Test", "Test", "default code", testCases);
+        testChallenge1 = new CodingChallenge("Test", "Test", "default code", testCases1);
+
+        List<TestCase> testCases2 = Arrays.asList(
+                new TestCase("string_test", new String[] { "\"Hello\"", "\"World\"" }, "Hello World"),
+                new TestCase("string_test", new String[] { "\"Kieran\"", "\"Robertson\"" }, "Kieran Robertson")
+        );
+        testChallenge2 = new CodingChallenge("Test", "Test", "default code", testCases2);
     }
 
     @Test
     public void correctAnswerTest() {
         Map<TestCase, TestResult> results =
-                testChallenge.runCode("def string_test(word):\n" +
+                testChallenge1.runCode("def string_test(word):\n" +
                 "    return word+\" World\"",
                 CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -35,8 +41,20 @@ public class CodingChallengeTests {
     }
 
     @Test
+    public void correctAnswerMultiArgTest() {
+        Map<TestCase, TestResult> results =
+                testChallenge1.runCode("def string_test(firstWord, secondWord):\n" +
+                                "    return firstWord+\" \" + secondWord",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+    @Test
     public void testCompileError() {
-        boolean compilationResult = testChallenge.doesCompile("def-ERROR_HERE string_test(word):\n" +
+        boolean compilationResult = testChallenge1.doesCompile("def-ERROR_HERE string_test(word):\n" +
                         "    return word+\" World\"",
                 CodingChallenge.ProgrammingLanguage.PYTHON);
         Assert.assertFalse(compilationResult);
