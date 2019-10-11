@@ -22,15 +22,16 @@ public class PythonCommander {
     }
 
     public TestResult processTestCase(TestCase testCase) {
+        TestResult testResult = new TestResult();
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
-            String codeWithTestCase = appendTestCase(testCase);
-            pyInterp.exec(codeWithTestCase);
+            pyInterp.exec(appendTestCase(testCase));
+            testResult.setResult(pyInterp.get("result").toString());
         }
-        return null;
+        return testResult;
     }
 
     private String appendTestCase(TestCase testCase) {
-        String placeholder = "\nprint(str("+testCase.getMethodName()+"({FIRST_ARG})))";
+        String placeholder = "\nresult="+testCase.getMethodName()+"({FIRST_ARG})";
         Object[] arguments = testCase.getArguments();
 
         for (int i=0; i<arguments.length; i++) {

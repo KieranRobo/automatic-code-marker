@@ -4,30 +4,25 @@ import java.util.Date;
 
 public class TestResult {
 
-    private boolean result;
-    private String response;
+    private TestCase testCase;
     private Date excecutionBeganTime;
+    private String result;
 
-    public TestResult(boolean result, String response, Date excecutionBeganTime) {
-        this.result = result;
-        this.response = response;
+    public TestResult() {
+    }
+
+    public TestResult(TestCase testCase, Date excecutionBeganTime, String result) {
+        this.testCase = testCase;
         this.excecutionBeganTime = excecutionBeganTime;
-    }
-
-    public boolean isResult() {
-        return result;
-    }
-
-    public void setResult(boolean result) {
         this.result = result;
     }
 
-    public String getResponse() {
-        return response;
+    public TestCase getTestCase() {
+        return testCase;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setTestCase(TestCase testCase) {
+        this.testCase = testCase;
     }
 
     public Date getExcecutionBeganTime() {
@@ -36,5 +31,13 @@ public class TestResult {
 
     public void setExcecutionBeganTime(Date excecutionBeganTime) {
         this.excecutionBeganTime = excecutionBeganTime;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
