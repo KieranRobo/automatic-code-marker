@@ -1,6 +1,7 @@
 package com.kieranrobertson.project.service;
 
 import com.kieranrobertson.project.model.TestCase;
+import com.kieranrobertson.project.model.TestResult;
 import org.python.util.PythonInterpreter;
 
 public class PythonCommander {
@@ -20,11 +21,12 @@ public class PythonCommander {
         }
     }
 
-    public void processTestCase(TestCase testCase) {
+    public TestResult processTestCase(TestCase testCase) {
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
             String codeWithTestCase = appendTestCase(testCase);
             pyInterp.exec(codeWithTestCase);
         }
+        return null;
     }
 
     private String appendTestCase(TestCase testCase) {
