@@ -1,4 +1,4 @@
-package com.kieranrobertson.project.service;
+package com.kieranrobertson.project.commanders;
 
 import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestResult;

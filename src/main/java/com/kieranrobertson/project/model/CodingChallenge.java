@@ -1,7 +1,7 @@
 package com.kieranrobertson.project.model;
 
-import com.kieranrobertson.project.service.CodeCommander;
-import com.kieranrobertson.project.service.PythonCommander;
+import com.kieranrobertson.project.commanders.CodeCommander;
+import com.kieranrobertson.project.commanders.PythonCommander;
 
 import java.util.HashMap;
 import java.util.List;
