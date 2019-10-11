@@ -24,11 +24,22 @@ public class CodingChallengeTests {
 
     @Test
     public void correctAnswerTest() {
-        Map<TestCase, TestResult> results =  testChallenge.runPython("def string_test(word):\n" +
-                "    return word+\" World\"");
+        Map<TestCase, TestResult> results =
+                testChallenge.runCode("def string_test(word):\n" +
+                "    return word+\" World\"",
+                CodingChallenge.ProgrammingLanguage.PYTHON);
+
         for (TestCase testCase : results.keySet()) {
             Assert.assertEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
         }
+    }
+
+    @Test
+    public void testCompileError() {
+        boolean compilationResult = testChallenge.doesCompile("def-ERROR_HERE string_test(word):\n" +
+                        "    return word+\" World\"",
+                CodingChallenge.ProgrammingLanguage.PYTHON);
+        Assert.assertFalse(compilationResult);
     }
 
 }

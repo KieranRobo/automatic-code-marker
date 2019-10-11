@@ -4,7 +4,7 @@ import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestResult;
 import org.python.util.PythonInterpreter;
 
-public class PythonCommander {
+public class PythonCommander implements CodeCommander {
 
     private String submittedCode;
 

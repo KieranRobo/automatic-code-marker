@@ -1,5 +1,6 @@
 package com.kieranrobertson.project.model;
 
+import com.kieranrobertson.project.service.CodeCommander;
 import com.kieranrobertson.project.service.PythonCommander;
 
 import java.util.HashMap;
@@ -8,28 +9,45 @@ import java.util.Map;
 
 public class CodingChallenge {
 
+    public enum ProgrammingLanguage {
+        PYTHON
+    }
+
     private String name;
-    private String destription;
+    private String description;
     private String defaultCode;
     private List<TestCase> testCases;
 
     public CodingChallenge(String name, String description, String defaultCode, List<TestCase> testCases) {
         this.name = name;
-        this.destription = description;
+        this.description = description;
         this.defaultCode = defaultCode;
         this.testCases = testCases;
     }
 
-    public Map<TestCase, TestResult> runPython(String pythonCode) {
+    public Map<TestCase, TestResult> runCode(String code, ProgrammingLanguage language) {
         Map<TestCase, TestResult> testResults = new HashMap<>();
-        PythonCommander pythonCommander = new PythonCommander(pythonCode);
-
         for (TestCase testCase : testCases) {
             testResults.put(testCase,
-                pythonCommander.processTestCase(testCase)
+                    getCommander(language, code).processTestCase(testCase)
             );
         }
         return testResults;
+    }
+
+    public boolean doesCompile(String code, ProgrammingLanguage language) {
+        return getCommander(language, code).doesCompile();
+    }
+
+    private CodeCommander getCommander(ProgrammingLanguage language, String code) {
+        CodeCommander codeCommander;
+        if (language == ProgrammingLanguage.PYTHON) {
+            codeCommander = new PythonCommander(code);
+        } // Additional languages must go here
+        else {
+            throw new RuntimeException("Unknown programming language: " + language.toString());
+        }
+        return codeCommander;
     }
 
     public String getName() {
@@ -40,12 +58,12 @@ public class CodingChallenge {
         this.name = name;
     }
 
-    public String getDestription() {
-        return destription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDestription(String destription) {
-        this.destription = destription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDefaultCode() {
