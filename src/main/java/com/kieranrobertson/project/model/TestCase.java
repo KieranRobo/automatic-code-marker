@@ -4,6 +4,8 @@ public class TestCase {
 
     private String methodName;
     private Object[] arguments;
+
+    // Due to current limitation, we always convert result to a String format
     private String expectedResult;
 
     public TestCase(String methodName, Object[] arguments, String expectedResult) {

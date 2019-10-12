@@ -6,12 +6,12 @@ public class TestResult {
 
     private TestCase testCase;
     private Date excecutionBeganTime;
-    private String result;
+    private Object result;
 
     public TestResult() {
     }
 
-    public TestResult(TestCase testCase, Date excecutionBeganTime, String result) {
+    public TestResult(TestCase testCase, Date excecutionBeganTime, Object result) {
         this.testCase = testCase;
         this.excecutionBeganTime = excecutionBeganTime;
         this.result = result;
@@ -33,7 +33,7 @@ public class TestResult {
         this.excecutionBeganTime = excecutionBeganTime;
     }
 
-    public String getResult() {
+    public Object getResult() {
         return result;
     }
 

@@ -11,25 +11,31 @@ import java.util.Map;
 
 public class CodingChallengeTests {
 
-    private CodingChallenge testChallenge1, testChallenge2;
+    private CodingChallenge testChallenge1, testChallenge2, testChallenge3;
 
     @Before
     public void setUpChallenges(){
         List<TestCase> testCases1 = Arrays.asList(
-                new TestCase("string_test", new String[] { "\"Hello\"" }, "Hello World"),
-                new TestCase("string_test", new String[] { "\"Where is the\"" }, "Where is the World")
+                new TestCase("string_test", new Object[] { "\"Hello\"" }, "Hello World"),
+                new TestCase("string_test", new Object[] { "\"Where is the\"" }, "Where is the World")
         );
         testChallenge1 = new CodingChallenge("Test", "Test", "default code", testCases1);
 
         List<TestCase> testCases2 = Arrays.asList(
-                new TestCase("string_test", new String[] { "\"Hello\"", "\"World\"" }, "Hello World"),
-                new TestCase("string_test", new String[] { "\"Kieran\"", "\"Robertson\"" }, "Kieran Robertson")
+                new TestCase("string_test", new Object[] { "\"Hello\"", "\"World\"" }, "Hello World"),
+                new TestCase("string_test", new Object[] { "\"Kieran\"", "\"Robertson\"" }, "Kieran Robertson")
         );
         testChallenge2 = new CodingChallenge("Test", "Test", "default code", testCases2);
+
+        List<TestCase> testCases3 = Arrays.asList(
+                new TestCase("int_test", new Object[] { 1, 2 }, "3"),
+                new TestCase("int_test", new Object[] { 10, -5 }, "5")
+        );
+        testChallenge3 = new CodingChallenge("Test", "Test", "default code", testCases3);
     }
 
     @Test
-    public void correctAnswerTest() {
+    public void correctAnswer_simpleString_test() {
         Map<TestCase, TestResult> results =
                 testChallenge1.runCode("def string_test(word):\n" +
                 "    return word+\" World\"",
@@ -41,7 +47,7 @@ public class CodingChallengeTests {
     }
 
     @Test
-    public void correctAnswerMultiArgTest() {
+    public void correctAnswer_multiArgString_test() {
         Map<TestCase, TestResult> results =
                 testChallenge2.runCode("def string_test(firstWord, secondWord):\n" +
                                 "    return firstWord+\" \" + secondWord",
@@ -53,7 +59,19 @@ public class CodingChallengeTests {
     }
 
     @Test
-    public void testCompileError() {
+    public void correctAnswer_multiArgInt_test() {
+        Map<TestCase, TestResult> results =
+                testChallenge3.runCode("def int_test(num1, num2):\n" +
+                                "    return num1+num2",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+    @Test
+    public void compilationError_test() {
         boolean compilationResult = testChallenge1.doesCompile("def-ERROR_HERE string_test(word):\n" +
                         "    return word+\" World\"",
                 CodingChallenge.ProgrammingLanguage.PYTHON);

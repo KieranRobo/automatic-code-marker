@@ -25,6 +25,8 @@ public class PythonCommander implements CodeCommander {
         TestResult testResult = new TestResult();
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
             pyInterp.exec(appendTestCase(testCase));
+
+            // Results should always be stringified for compatibility.
             testResult.setResult(pyInterp.get("result").toString());
         }
         return testResult;
