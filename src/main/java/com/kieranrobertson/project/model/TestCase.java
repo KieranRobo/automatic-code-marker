@@ -1,11 +1,28 @@
 package com.kieranrobertson.project.model;
 
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@Entity
+@Table(name="test_cases")
 public class TestCase {
 
+    @Id
+    @Column(name="id")
+    private int id;
+
+    @Column(name="method_name")
     private String methodName;
+
     private Object[] arguments;
 
     // Due to current limitation, we always convert result to a String format
+    @Column(name="expected_result")
     private String expectedResult;
 
     public TestCase(String methodName, Object[] arguments, String expectedResult) {

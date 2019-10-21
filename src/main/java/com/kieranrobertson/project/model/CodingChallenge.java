@@ -2,20 +2,36 @@ package com.kieranrobertson.project.model;
 
 import com.kieranrobertson.project.commanders.CodeCommander;
 import com.kieranrobertson.project.commanders.PythonCommander;
+import lombok.Data;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
+@Entity
+@Table(name="challenges")
 public class CodingChallenge {
 
     public enum ProgrammingLanguage {
         PYTHON
     }
 
+    @Id
+    @Column(name="id")
+    private int id;
+
+    @Column(name="name")
     private String name;
+
+    @Column(name="description")
     private String description;
+
+    @Column(name="default_code")
     private String defaultCode;
+
+    @OneToMany
     private List<TestCase> testCases;
 
     public CodingChallenge(String name, String description, String defaultCode, List<TestCase> testCases) {
@@ -48,37 +64,5 @@ public class CodingChallenge {
             throw new RuntimeException("Unknown programming language: " + language.toString());
         }
         return codeCommander;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDefaultCode() {
-        return defaultCode;
-    }
-
-    public void setDefaultCode(String defaultCode) {
-        this.defaultCode = defaultCode;
-    }
-
-    public List<TestCase> getTestCases() {
-        return testCases;
-    }
-
-    public void setTestCases(List<TestCase> testCases) {
-        this.testCases = testCases;
     }
 }
