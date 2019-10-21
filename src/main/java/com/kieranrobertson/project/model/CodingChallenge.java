@@ -3,6 +3,7 @@ package com.kieranrobertson.project.model;
 import com.kieranrobertson.project.commanders.CodeCommander;
 import com.kieranrobertson.project.commanders.PythonCommander;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name="challenges")
+@NoArgsConstructor
 public class CodingChallenge {
 
     public enum ProgrammingLanguage {
