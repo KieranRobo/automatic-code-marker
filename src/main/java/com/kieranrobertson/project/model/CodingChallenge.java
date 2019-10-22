@@ -1,11 +1,14 @@
 package com.kieranrobertson.project.model;
 
+import com.fasterxml.jackson.annotation.*;
 import com.kieranrobertson.project.commanders.CodeCommander;
 import com.kieranrobertson.project.commanders.PythonCommander;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +36,8 @@ public class CodingChallenge {
     @Column(name="default_code")
     private String defaultCode;
 
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(targetEntity = TestCase.class, mappedBy="codingChallenge", fetch=FetchType.LAZY)
     private List<TestCase> testCases;
 
     public CodingChallenge(String name, String description, String defaultCode, List<TestCase> testCases) {

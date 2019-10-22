@@ -1,24 +1,33 @@
 package com.kieranrobertson.project.model;
 
+import com.fasterxml.jackson.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name="test_cases")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TestCase {
 
     @Id
     @Column(name="id")
     private int id;
 
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="challenge",nullable=false)
+    private CodingChallenge codingChallenge;
+
     @Column(name="method_name")
     private String methodName;
 
+    @Transient
+    @JsonIgnore
     private Object[] arguments;
 
     // Due to current limitation, we always convert result to a String format
@@ -53,5 +62,22 @@ public class TestCase {
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    @JsonIgnore
+    public CodingChallenge getCodingChallenge() {
+        return codingChallenge;
+    }
+
+    public void setCodingChallenge(CodingChallenge codingChallenge) {
+        this.codingChallenge = codingChallenge;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

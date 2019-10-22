@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChallengeService {
@@ -15,5 +16,9 @@ public class ChallengeService {
 
     public List<CodingChallenge> getAllChallenges() {
         return challengeRepository.findAll();
+    }
+
+    public Optional<CodingChallenge> getChallenge(int challengeId) {
+        return challengeRepository.findById(challengeId);
     }
 }
