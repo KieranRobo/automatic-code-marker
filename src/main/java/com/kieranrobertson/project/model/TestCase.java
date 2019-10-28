@@ -44,45 +44,4 @@ public class TestCase {
         this.arguments = arguments;
         this.expectedResult = expectedResult;
     }
-
-    public List<TestCaseArgument> getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(List<TestCaseArgument> arguments) {
-        this.arguments = arguments;
-    }
-
-    public String getExpectedResult() {
-        return expectedResult;
-    }
-
-    public void setExpectedResult(String expectedResult) {
-        this.expectedResult = expectedResult;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
-    }
-
-    @JsonIgnore
-    public CodingChallenge getCodingChallenge() {
-        return codingChallenge;
-    }
-
-    public void setCodingChallenge(CodingChallenge codingChallenge) {
-        this.codingChallenge = codingChallenge;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
