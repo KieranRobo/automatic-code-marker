@@ -1,14 +1,13 @@
 package com.kieranrobertson.project.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.commanders.CodeCommander;
 import com.kieranrobertson.project.commanders.PythonCommander;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +27,20 @@ public class CodingChallenge {
     private int id;
 
     @Column(name="name")
+    @JsonProperty("name")
     private String name;
 
     @Column(name="description")
+    @JsonProperty("description")
     private String description;
 
     @Column(name="default_code")
+    @JsonProperty("default_code")
     private String defaultCode;
 
     @JsonManagedReference
     @OneToMany(targetEntity = TestCase.class, mappedBy="codingChallenge", fetch=FetchType.LAZY)
+    @JsonProperty("test_cases")
     private List<TestCase> testCases;
 
     public CodingChallenge(String name, String description, String defaultCode, List<TestCase> testCases) {

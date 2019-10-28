@@ -1,6 +1,8 @@
 package com.kieranrobertson.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ public class TestCaseArgument {
 
     @Id
     @Column(name="id")
+    @JsonIgnore
     private int id;
 
     @JsonBackReference
@@ -24,13 +27,16 @@ public class TestCaseArgument {
     private TestCase testCase;
 
     @Column(name="argument_name")
+    @JsonProperty("name")
     private String argumentName;
 
     @Column(name="argument_type")
+    @JsonProperty("type")
     private String argumentType;
 
     // Despite being String, this can hold any type. Parsed based on argumentType value.
     @Column(name="argument_value")
+    @JsonProperty("value")
     private String argumentValue;
 
     public TestCaseArgument(String argumentName, String argumentType, String argumentValue) {
@@ -43,7 +49,8 @@ public class TestCaseArgument {
      * Provides the 'code ready' value of the argument
      * @return code ready value of the argument.
      */
-    public String getArgumentValue() {
+    @JsonIgnore
+    public String getCodeReadyArgumentValue() {
         if (argumentType.equals("STRING")) {
             return "\""+argumentValue+"\"";
         }

@@ -17,6 +17,7 @@ public class TestCase {
 
     @Id
     @Column(name="id")
+    @JsonIgnore
     private int id;
 
     @JsonBackReference
@@ -25,14 +26,17 @@ public class TestCase {
     private CodingChallenge codingChallenge;
 
     @Column(name="method_name")
+    @JsonProperty("method_name")
     private String methodName;
 
     @JsonManagedReference
     @OneToMany(targetEntity = TestCaseArgument.class, mappedBy="testCase", fetch=FetchType.LAZY)
+    @JsonProperty("arguments")
     private List<TestCaseArgument> arguments;
 
     // Due to current limitation, we always convert result to a String format
     @Column(name="expected_result")
+    @JsonProperty("expected_result")
     private String expectedResult;
 
     public TestCase(String methodName, List<TestCaseArgument> arguments, String expectedResult) {

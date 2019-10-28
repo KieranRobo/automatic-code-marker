@@ -5,8 +5,6 @@ import com.kieranrobertson.project.model.TestCaseArgument;
 import com.kieranrobertson.project.model.TestResult;
 import org.python.util.PythonInterpreter;
 
-import java.util.List;
-
 public class PythonCommander implements CodeCommander {
 
     private String submittedCode;
@@ -43,7 +41,7 @@ public class PythonCommander implements CodeCommander {
             if (args.length() > 0) {
                 args.append(",");
             }
-            args.append(currentArgument.getArgumentValue());
+            args.append(currentArgument.getCodeReadyArgumentValue());
         }
         placeholder = placeholder.replace("{ARGS}", args);
         return submittedCode + placeholder;
