@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,25 +27,25 @@ public class TestCase {
     @Column(name="method_name")
     private String methodName;
 
-    @Transient
-    @JsonIgnore
-    private Object[] arguments;
+    @JsonManagedReference
+    @OneToMany(targetEntity = TestCaseArgument.class, mappedBy="testCase", fetch=FetchType.LAZY)
+    private List<TestCaseArgument> arguments;
 
     // Due to current limitation, we always convert result to a String format
     @Column(name="expected_result")
     private String expectedResult;
 
-    public TestCase(String methodName, Object[] arguments, String expectedResult) {
+    public TestCase(String methodName, List<TestCaseArgument> arguments, String expectedResult) {
         this.methodName = methodName;
         this.arguments = arguments;
         this.expectedResult = expectedResult;
     }
 
-    public Object[] getArguments() {
+    public List<TestCaseArgument> getArguments() {
         return arguments;
     }
 
-    public void setArguments(Object[] arguments) {
+    public void setArguments(List<TestCaseArgument> arguments) {
         this.arguments = arguments;
     }
 
