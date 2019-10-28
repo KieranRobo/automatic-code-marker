@@ -33,13 +33,4 @@ public class ChallengeController {
         }
         throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
     }
-
-    @GetMapping("{id}/test-cases")
-    public List<TestCase> getAllTestCases(@PathVariable("id") int id) {
-        Optional<CodingChallenge> codingChallenge = challengeService.getChallenge(id);
-        if (codingChallenge.isPresent()) {
-            return codingChallenge.get().getTestCases();
-        }
-        throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
-    }
 }
