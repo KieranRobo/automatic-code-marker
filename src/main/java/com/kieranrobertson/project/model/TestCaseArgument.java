@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
 @Entity
 @Table(name="test_cases_arguments")
 @NoArgsConstructor

@@ -6,13 +6,16 @@ import com.kieranrobertson.project.commanders.CodeCommander;
 import com.kieranrobertson.project.commanders.PythonCommander;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
+
+
 @Entity
 @Table(name="challenges")
 @NoArgsConstructor
@@ -21,6 +24,9 @@ public class CodingChallenge {
     public enum ProgrammingLanguage {
         PYTHON
     }
+
+    /*@Transient
+    private final Logger log = LoggerFactory.getLogger(CodingChallenge.class);*/
 
     @Id
     @Column(name="id")
@@ -51,6 +57,7 @@ public class CodingChallenge {
     }
 
     public Map<TestCase, TestResult> runCode(String code, ProgrammingLanguage language) {
+        //log.info("Running {} code for challenge ID {}: {}", language, id, code);
         Map<TestCase, TestResult> testResults = new HashMap<>();
         for (TestCase testCase : testCases) {
             testResults.put(testCase,

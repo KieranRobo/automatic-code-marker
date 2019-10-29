@@ -4,8 +4,12 @@ import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestCaseArgument;
 import com.kieranrobertson.project.model.TestResult;
 import org.python.util.PythonInterpreter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PythonCommander implements CodeCommander {
+
+    private final Logger log = LoggerFactory.getLogger(PythonCommander.class);
 
     private String submittedCode;
 
@@ -23,6 +27,7 @@ public class PythonCommander implements CodeCommander {
     }
 
     public TestResult processTestCase(TestCase testCase) {
+        log.info("Running code with test case [{}]", testCase);
         TestResult testResult = new TestResult();
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
             pyInterp.exec(appendTestCase(testCase));
