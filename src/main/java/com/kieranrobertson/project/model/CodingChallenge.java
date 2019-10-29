@@ -30,6 +30,7 @@ public class CodingChallenge {
 
     @Id
     @Column(name="id")
+    @JsonProperty("id")
     private int id;
 
     @Column(name="name")
