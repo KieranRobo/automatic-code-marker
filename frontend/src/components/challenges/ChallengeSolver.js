@@ -3,6 +3,7 @@ import axios from "../../api.service";
 import ChallengeDescription from './solver/ChallengeDescription';
 
 import {Form, Button} from 'react-bootstrap';
+import SubmissionResults from './solver/SubmissionResults';
 
 class ChallengeSolver extends React.Component {
 
@@ -11,7 +12,8 @@ class ChallengeSolver extends React.Component {
 
         this.state = {
             challenge: null,
-            submission: null
+            submission: null,
+            submissionResults: null
         };
 
         this.codeChange = this.codeChange.bind(this);
@@ -24,10 +26,11 @@ class ChallengeSolver extends React.Component {
             const newState = Object.assign({}, this.state, {
                 challenge: response.data,
                 submission: response.data.default_code
-        });
+            });
         
         this.setState(newState);
         });
+        
     }
 
     codeChange(event) {
@@ -36,11 +39,16 @@ class ChallengeSolver extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.setState({ submitted: true });
-
-        axios.Challenges.submit(this.state.challenge.id, this.state.submission);
-
-        console.log(this.state.submission);
+        axios.Challenges.submit(this.state.challenge.id, this.state.submission)
+        .then(response => {
+            const newState = Object.assign({}, this.state, {
+                submissionResults: response.data
+            });
+            this.setState(newState);
+        }).catch((err) => {
+            console.error(err);
+        });
+        
         
     }
 
@@ -51,6 +59,7 @@ class ChallengeSolver extends React.Component {
         return (
         <div>
             <div><strong>{this.state.challenge.name}</strong></div>
+            <div><SubmissionResults results={this.state.submissionResults}></SubmissionResults></div>
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <ChallengeDescription challenge={this.state.challenge}></ChallengeDescription>

@@ -14,7 +14,6 @@ class Challenges extends React.Component {
             const newState = Object.assign({}, this.state, {
                 challenges: response.data
         });
-        console.log("working");
         
         this.setState(newState);
         });
