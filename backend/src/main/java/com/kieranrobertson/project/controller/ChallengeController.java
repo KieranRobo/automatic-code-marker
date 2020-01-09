@@ -41,6 +41,8 @@ public class ChallengeController {
 
     @PostMapping("{id}/attempt")
     public Map<TestCase, Boolean> attemptChallenge(@PathVariable("id") int id, @RequestBody ChallengeAttempt attempt) {
+        System.out.println("Attempt:" + attempt.toString());
+
         Optional<CodingChallenge> codingChallengeCheck = challengeService.getChallenge(id);
         if (!codingChallengeCheck.isPresent()) {
             throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
