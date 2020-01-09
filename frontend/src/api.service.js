@@ -6,7 +6,7 @@ const requests = {
     get: url =>
       axios.get(`${API_ROOT}${url}`),
     post: (url, data) =>
-      axios.post(`${API_ROOT}${url}`, {data}),
+      axios.post(`${API_ROOT}${url}`, data),
 };
 
 const Challenges = {
@@ -16,10 +16,10 @@ const Challenges = {
       requests.get(`/challenges/${id}`),
     submit: (id, code) => {
       const submission = {
-        'language': 'PYTHON',
-        'code': code
+        language: 'PYTHON',
+        code: code
       }
-      console.log(submission);
+      console.log(JSON.stringify(submission));
       requests.post(`/challenges/${id}/attempt`, submission)
     }
       
