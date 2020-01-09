@@ -9,13 +9,11 @@ import com.kieranrobertson.project.service.ChallengeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Test;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("challenges")
@@ -40,9 +38,7 @@ public class ChallengeController {
 
 
     @PostMapping("{id}/attempt")
-    public Map<TestCase, Boolean> attemptChallenge(@PathVariable("id") int id, @RequestBody ChallengeAttempt attempt) {
-        System.out.println("Attempt:" + attempt.toString());
-
+    public Set<TestCaseResult> attemptChallenge(@PathVariable("id") int id, @RequestBody ChallengeAttempt attempt) {
         Optional<CodingChallenge> codingChallengeCheck = challengeService.getChallenge(id);
         if (!codingChallengeCheck.isPresent()) {
             throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
@@ -55,23 +51,31 @@ public class ChallengeController {
         }
 
         // TODO: move all this out into service and improve logic substantially.
-        Map<TestCase, Boolean> outputResults = new HashMap<>();
+        Set<TestCaseResult> testCaseResults = new HashSet<>();
         Map<TestCase, TestResult> runResults = codingChallenge.runCode(attempt.getCode(), attempt.getLanguage());
         for (TestCase testCase : runResults.keySet()) {
             if (runResults.get(testCase).getResult().equals(testCase.getExpectedResult())) {
-                outputResults.put(testCase, true);
+                testCaseResults.add(new TestCaseResult(testCase.getId(), true, "Todo output..."));
             } else {
-                outputResults.put(testCase, false);
+                testCaseResults.add(new TestCaseResult(testCase.getId(), false, "Todo output..."));
             }
         }
 
-        return outputResults;
+        return testCaseResults;
     }
 
     @Data
     private static class ChallengeAttempt {
         private CodingChallenge.ProgrammingLanguage language;
         private String code;
+    }
+
+    @Data
+    @AllArgsConstructor
+    private static class TestCaseResult {
+        private int id;
+        private boolean success;
+        private String output;
     }
 
 

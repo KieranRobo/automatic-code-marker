@@ -1,6 +1,8 @@
 package com.kieranrobertson.project.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,5 +45,15 @@ public class TestCase {
         this.methodName = methodName;
         this.arguments = arguments;
         this.expectedResult = expectedResult;
+    }
+
+    @Override
+    public String toString(){
+        try {
+            ObjectMapper jsonMapper = new ObjectMapper();
+            return jsonMapper.writeValueAsString(this);
+        } catch (JsonProcessingException ex) {
+            return "[JSON ERROR]";
+        }
     }
 }
