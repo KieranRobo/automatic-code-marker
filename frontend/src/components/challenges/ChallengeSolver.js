@@ -87,7 +87,7 @@ class ChallengeSolver extends React.Component {
         return (
         <div>
             <div><strong>{this.state.challenge.name}</strong></div>
-            <div><TestCaseResults results={this.state.testCaseResults}></TestCaseResults></div>
+            
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <ChallengeDescription challenge={this.state.challenge}></ChallengeDescription>
@@ -99,6 +99,7 @@ class ChallengeSolver extends React.Component {
 
                     <Button type="submit" size="lg">Submit Code</Button>
                     <SubmissionResult result={this.state.result}></SubmissionResult>
+                    <div><TestCaseResults results={this.state.testCaseResults}></TestCaseResults></div>
                 </Form>
             </div>
         </div>

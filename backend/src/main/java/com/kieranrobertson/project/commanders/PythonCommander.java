@@ -35,6 +35,8 @@ public class PythonCommander implements CodeCommander {
             // Results should always be stringified for compatibility.
             testResult.setResult(pyInterp.get("result").toString());
         }
+
+        log.info("Actual result: " + testResult.getResult());
         return testResult;
     }
 
