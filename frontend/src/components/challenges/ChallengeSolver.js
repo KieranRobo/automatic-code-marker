@@ -3,7 +3,8 @@ import axios from "../../api.service";
 import ChallengeDescription from './solver/ChallengeDescription';
 
 import {Form, Button} from 'react-bootstrap';
-import SubmissionResults from './solver/SubmissionResults';
+import TestCaseResults from './solver/TestCaseResults';
+import SubmissionResult from './solver/SubmissionResult';
 
 class ChallengeSolver extends React.Component {
 
@@ -13,7 +14,8 @@ class ChallengeSolver extends React.Component {
         this.state = {
             challenge: null,
             submission: null,
-            submissionResults: null
+            testCaseResults: null,
+            result: null
         };
 
         this.codeChange = this.codeChange.bind(this);
@@ -41,14 +43,39 @@ class ChallengeSolver extends React.Component {
         event.preventDefault();
         axios.Challenges.submit(this.state.challenge.id, this.state.submission)
         .then(response => {
+            var testCasesPassed = (this.hasPassedTestCases(response.data) ? true : false);
             const newState = Object.assign({}, this.state, {
-                submissionResults: response.data
+                testCaseResults: response.data,
+                result : (testCasesPassed ? "SUCCESS" : "TEST_CASES_FAILURE")
             });
             this.setState(newState);
         }).catch((err) => {
-            console.error(err);
+            if (err.response) {
+                if (err.response.status === 400) {
+                    const newState = Object.assign({}, this.state, {
+                        testCaseResults: null,
+                        result: "COMPILATION_ERROR"
+                    });
+                    this.setState(newState);
+                } else {
+                    const newState = Object.assign({}, this.state, {
+                        testCaseResults: null,
+                        result: "UNKNOWN_ERROR"
+                    });
+                    this.setState(newState);
+                }
+            }
         });
         
+        
+    }
+
+    hasPassedTestCases(testCaseResult) {
+        var failures = 0;
+        testCaseResult.forEach(function(item) {
+            if (!item.success) failures++;
+        });
+        return ((failures > 0) ? false : true);
         
     }
 
@@ -59,7 +86,7 @@ class ChallengeSolver extends React.Component {
         return (
         <div>
             <div><strong>{this.state.challenge.name}</strong></div>
-            <div><SubmissionResults results={this.state.submissionResults}></SubmissionResults></div>
+            <div><TestCaseResults results={this.state.testCaseResults}></TestCaseResults></div>
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <ChallengeDescription challenge={this.state.challenge}></ChallengeDescription>
@@ -67,6 +94,7 @@ class ChallengeSolver extends React.Component {
                     <Form.Control as="textarea" rows="5" cols="50" name="submission" value={this.state.submission} onChange={this.codeChange}/>
                     
                     <Button type="submit" size="lg">Submit Code</Button>
+                    <SubmissionResult result={this.state.result}></SubmissionResult>
                 </Form>
             </div>
         </div>

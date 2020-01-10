@@ -1,9 +1,9 @@
 import React from 'react';
 import { Accordion, Card, Button } from 'react-bootstrap';
 
-const SubmissionResults = props => {
+const TestCaseResults = props => {
     if (!props.results) {
-        return (<div>Results here</div>);
+        return (<div></div>);
     }
 
     return (
@@ -30,4 +30,4 @@ const SubmissionResults = props => {
     );
 };
 
-export default SubmissionResults;
+export default TestCaseResults;
