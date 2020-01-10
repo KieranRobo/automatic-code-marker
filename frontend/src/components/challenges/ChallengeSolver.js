@@ -6,6 +6,8 @@ import {Form, Button} from 'react-bootstrap';
 import TestCaseResults from './solver/TestCaseResults';
 import SubmissionResult from './solver/SubmissionResult';
 
+import AceEditor from 'react-ace';
+
 class ChallengeSolver extends React.Component {
 
     constructor(props) {
@@ -32,11 +34,10 @@ class ChallengeSolver extends React.Component {
         
         this.setState(newState);
         });
-        
     }
 
-    codeChange(event) {
-        this.setState({ submission: event.target.value });
+    codeChange(newCode) {
+        this.setState({ submission: newCode });
     }
 
     handleSubmit(event) {
@@ -91,8 +92,11 @@ class ChallengeSolver extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <ChallengeDescription challenge={this.state.challenge}></ChallengeDescription>
                     
-                    <Form.Control as="textarea" rows="5" cols="50" name="submission" value={this.state.submission} onChange={this.codeChange}/>
-                    
+                    <AceEditor fontSize="16px" width="100%" height="250px" mode="python" theme="github" editorProps={{ $blockScrolling: true }}
+                    value={this.state.submission}
+                    onChange={this.codeChange}
+                />
+
                     <Button type="submit" size="lg">Submit Code</Button>
                     <SubmissionResult result={this.state.result}></SubmissionResult>
                 </Form>

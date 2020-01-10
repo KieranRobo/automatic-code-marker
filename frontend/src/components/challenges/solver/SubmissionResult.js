@@ -5,7 +5,7 @@ const SubmissionResult = props => {
     if (props.result === "COMPILATION_ERROR") {
         return (
         <div><Alert color="primary">
-            Your submission failed to compile.
+            A compilation error occured with your submission.
         </Alert></div>);
     } else if (props.result === "UNKNOWN_ERROR") {
         return (
