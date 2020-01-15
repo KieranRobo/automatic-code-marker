@@ -16,7 +16,7 @@ public class Config {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
-                        .allowedOrigins("http://localhost:3000");
+                        .allowedOrigins("http://localhost:3000", "http://159.65.25.167:3001", "https://kieranrobertson.com", "http://project.kieranrobertson.com");
             }
         };
     }
