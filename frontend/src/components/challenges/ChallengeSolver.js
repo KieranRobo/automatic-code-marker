@@ -99,7 +99,7 @@ class ChallengeSolver extends React.Component {
 
                     <Button type="submit" size="lg">Submit Code</Button>
                     <SubmissionResult result={this.state.result}></SubmissionResult>
-                    <div><TestCaseResults results={this.state.testCaseResults}></TestCaseResults></div>
+                    <TestCaseResults testCases={this.state.challenge.test_cases} results={this.state.testCaseResults}></TestCaseResults>
                 </Form>
             </div>
         </div>

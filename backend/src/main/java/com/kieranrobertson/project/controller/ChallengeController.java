@@ -51,13 +51,14 @@ public class ChallengeController {
         }
 
         // TODO: move all this out into service and improve logic substantially.
-        Set<TestCaseResult> testCaseResults = new HashSet<>();
+        Set<TestCaseResult> testCaseResults = new TreeSet<>();
         Map<TestCase, TestResult> runResults = codingChallenge.runCode(attempt.getCode(), attempt.getLanguage());
         for (TestCase testCase : runResults.keySet()) {
-            if (runResults.get(testCase).getResult().equals(testCase.getExpectedResult())) {
-                testCaseResults.add(new TestCaseResult(testCase.getId(), true, "Todo output..."));
+            Object actualResult = runResults.get(testCase).getResult();
+            if (actualResult.equals(testCase.getExpectedResult())) {
+                testCaseResults.add(new TestCaseResult(testCase.getId(), true, actualResult.toString()));
             } else {
-                testCaseResults.add(new TestCaseResult(testCase.getId(), false, "Todo output..."));
+                testCaseResults.add(new TestCaseResult(testCase.getId(), false, actualResult.toString()));
             }
         }
 
@@ -72,10 +73,18 @@ public class ChallengeController {
 
     @Data
     @AllArgsConstructor
-    private static class TestCaseResult {
-        private int id;
+    private static class TestCaseResult implements Comparable<TestCaseResult>{
+        private Integer id;
         private boolean success;
         private String output;
+
+        /**
+         * Used to sort test cases results by ID, for consistent output.
+         */
+        @Override
+        public int compareTo(TestCaseResult testCaseResult) {
+            return this.getId().compareTo(testCaseResult.getId());
+        }
     }
 
 

@@ -19,7 +19,6 @@ public class TestCase {
 
     @Id
     @Column(name="id")
-    @JsonIgnore
     private int id;
 
     @JsonBackReference

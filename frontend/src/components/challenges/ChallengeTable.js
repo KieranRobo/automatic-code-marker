@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 const ChallengeTable = props => {
     if (!props.challenges) {
@@ -8,25 +9,28 @@ const ChallengeTable = props => {
         )
     }
     return (
-        <table>
-        <tbody>
-            <tr>
-                <td><strong>Challenge Name</strong></td>
-                <td></td>
-            </tr>
-            {
-                props.challenges.map(c => {
-                    return (
-                            <tr key={c.id}>
-                                <td>{c.name}</td>
-                                <td><Link to={`/challenges/${c.id}`}>Solve</Link></td>
-                            </tr>
-                    );
-                })
-            }
-            
-        </tbody>
-        </table>
+        <Table striped>
+            <thead>
+                <tr>
+                    <td><strong>Challenge Name</strong></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {
+                    props.challenges.map(c => {
+                        return (
+                                <tr key={c.id}>
+                                    <td>{c.name}</td>
+                                    <td><strong><Link to={`/challenges/${c.id}`}>Solve</Link></strong></td>
+                                </tr>
+                        );
+                    })
+                }
+                
+            </tbody>
+        </Table>
     );
 };
 

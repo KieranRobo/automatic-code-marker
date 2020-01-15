@@ -21,7 +21,7 @@ class Challenges extends React.Component {
 
     render() {
         return (
-            <div>Challenges
+            <div>
                 <div>Select a challenge from the list below:</div>
                 <ChallengeTable challenges={this.state.challenges}></ChallengeTable>
             </div>
