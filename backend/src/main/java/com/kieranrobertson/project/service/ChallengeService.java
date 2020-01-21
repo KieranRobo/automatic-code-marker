@@ -37,26 +37,12 @@ public class ChallengeService {
     }
 
     public void newChallenge(CodingChallenge challenge) {
-        challengeRepository.saveAndFlush(challenge);
-
+        challengeRepository.save(challenge);
         for (TestCase testCase : challenge.getTestCases()) {
             testCaseRepository.save(testCase);
             for (TestCaseArgument argument : testCase.getArguments()) {
                 testCaseArgumentRepository.save(argument);
             }
         }
-
-
-        /*challengeRepository.flush();
-        System.out.println("New id:" + createdChallengeTemp.getId());*/
-        /*for (TestCase testCase : challenge.getTestCases()) {
-            testCase.setCodingChallenge(createdChallengeTemp);
-            TestCase createdTestCaseTemp = testCaseRepository.save(testCase);
-            for (TestCase testCase : challenge.getTestCases()) {
-                testCase.setCodingChallenge(createdChallengeTemp);
-                TestCase createdTestCaseTemp = testCaseRepository.save(testCase);
-
-            }
-        }*/
     }
 }
