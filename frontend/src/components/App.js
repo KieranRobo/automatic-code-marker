@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Home from './Home';
 import Challenges from './Challenges';
 import ChallengeSolver from './challenges/ChallengeSolver';
+import NewChallenge from './NewChallenge';
 
 function App() {
   return (
@@ -15,11 +16,13 @@ function App() {
       
         <Link to="/"><Button variant="secondary">Home</Button></Link>
         <Link to="/challenges"><Button variant="secondary">Challenges</Button></Link>
+        <Link to="/challenges/new"><Button variant="secondary">New Challenge</Button></Link>
       
         
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/challenges" component={Challenges} />
+        <Route exact path="/challenges/new" component={NewChallenge} />
         <Route exact path="/challenges/:id" component={ChallengeSolver} />
       </Switch>
 
