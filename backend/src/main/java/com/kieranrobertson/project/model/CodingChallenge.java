@@ -19,6 +19,7 @@ import java.util.Map;
 @Entity
 @Table(name="challenges")
 @NoArgsConstructor
+@Data
 public class CodingChallenge {
 
     public enum ProgrammingLanguage {
@@ -29,6 +30,7 @@ public class CodingChallenge {
     private final Logger log = LoggerFactory.getLogger(CodingChallenge.class);*/
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     @JsonProperty("id")
     private int id;

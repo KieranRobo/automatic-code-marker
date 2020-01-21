@@ -18,6 +18,7 @@ import java.util.List;
 public class TestCase {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
 
@@ -31,7 +32,7 @@ public class TestCase {
     private String methodName;
 
     @JsonManagedReference
-    @OneToMany(targetEntity = TestCaseArgument.class, mappedBy="testCase", fetch=FetchType.LAZY)
+    @OneToMany(targetEntity = TestCaseArgument.class, mappedBy="testCase", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JsonProperty("arguments")
     private List<TestCaseArgument> arguments;
 
