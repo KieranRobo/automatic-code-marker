@@ -36,6 +36,11 @@ public class ChallengeController {
         throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
     }
 
+    @PutMapping
+    public void newChallenge(@RequestBody CodingChallenge challenge) {
+        challengeService.newChallenge(challenge);
+    }
+
 
     @PostMapping("{id}/attempt")
     public Set<TestCaseResult> attemptChallenge(@PathVariable("id") int id, @RequestBody ChallengeAttempt attempt) {

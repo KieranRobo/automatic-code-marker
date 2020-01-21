@@ -21,4 +21,8 @@ public class ChallengeService {
     public Optional<CodingChallenge> getChallenge(int challengeId) {
         return challengeRepository.findById(challengeId);
     }
+
+    public void newChallenge(CodingChallenge challenge) {
+        challengeRepository.save(challenge);
+    }
 }
