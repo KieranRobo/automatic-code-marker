@@ -22,6 +22,7 @@ class Challenges extends React.Component {
     render() {
         return (
             <div>
+                <h2>View All Challenges</h2>
                 <div>Select a challenge from the list below:</div>
                 <ChallengeTable challenges={this.state.challenges}></ChallengeTable>
             </div>
