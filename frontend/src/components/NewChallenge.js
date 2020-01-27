@@ -22,20 +22,36 @@ class NewChallenge extends React.Component {
         super(props);
 
         this.state = {
-            challengeName: null,
-            description: null,
-            defaultCode: null,
+            challengeName: '',
+            description: "",
+            defaultCode: "",
             assessedMethod: {
                 value: {
                     methodName: null,
                     args: []
                 },
-                label: null
+                label: ""
             },
             testCases: []
 
         };
 
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleDefaultCodeChange = this.handleDefaultCodeChange.bind(this)
+
+    }
+
+    handleNameChange = (newChallengeName) => {
+        this.setState({ challengeName: newChallengeName.target.value })
+    }
+
+    handleDescriptionChange = (newDescription) => {
+        this.setState({ description: newDescription.target.value })
+    }
+
+    handleDefaultCodeChange = (newDefaultCode) => {
+        this.setState({ defaultCode: newDefaultCode })
     }
 
     assessedMethodChange = (selectedAssessedMethod) => {
@@ -48,20 +64,52 @@ class NewChallenge extends React.Component {
         });
     }
 
+    expectedResultChange = testCaseIndex => evt => {
+        const newTestCases = this.state.testCases.map((testCase, idx) => {
+            if (testCaseIndex !== idx) return testCase;
+            return { ...testCase, expectedResult: evt.target.value };
+          });
+
+          this.setState({testCases: newTestCases});
+    }
+
+    argumentValueChange = (testCaseIndex, argumentIndex) => evt => {
+        const newTestCases = this.state.testCases.map((testCase, idx) => {
+            if (testCaseIndex !== idx) return testCase;
+
+            const newArguments = testCase.args.map((arg, argIndex) => {
+                if (argumentIndex !== argIndex) return arg;
+                const argName = arg.name;
+                
+                return { ...arg, value : evt.target.value }
+            });
+
+            return { ...testCase, args: newArguments };
+          });
+
+          this.setState({testCases: newTestCases});
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(this.state);
+    }
+
     handleNewTestCase = () => {
         // Create the default test case with assessed method arguments before adding
         var appendableTestCase = [];
         this.state.assessedMethod.value.args.map((arg) => {
             appendableTestCase = appendableTestCase.concat([{
                 name: arg,
-                value: null
+                value: ""
             }])
         });
 
+        // Add the fully created test case to the array of test cases
         this.setState({
             testCases: this.state.testCases.concat([{
                 args: appendableTestCase,
-                expectedResult: null
+                expectedResult: ""
             }])
         });
 
@@ -75,57 +123,58 @@ class NewChallenge extends React.Component {
                 
 
                 <div>
-                    <Form>
-                        <Form.Group controlId="formBasicEmail">
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group>
                             <Form.Label>Challenge Name</Form.Label>
-                            <Form.Control type="text" />
+                            <Form.Control type="text" value={this.state.challengeName} onChange={this.handleNameChange} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group>
                             <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows="3" />
+                            <Form.Control as="textarea" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicCheckbox">
+                        <Form.Group>
                             <Form.Label>Default Code</Form.Label>
-                            <AceEditor fontSize="16px" width="100%" height="150px" mode="python" theme="github" editorProps={{ $blockScrolling: true }} />
+                            <AceEditor fontSize="16px" width="100%" height="150px" mode="python" theme="github" editorProps={{ $blockScrolling: true }}
+                            value={this.state.defaultCode} onChange={this.handleDefaultCodeChange} />
                             <Form.Text className="text-muted">
                                 Make sure to include the challenge method declaration.
                             </Form.Text>
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicCheckbox">
+                        <Form.Group>
                             <Form.Label>Assessed Method</Form.Label>
                             <Select value={this.state.assessedMethod} options={methodFound} onChange={this.assessedMethodChange} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicCheckbox">
+                        <Form.Group>
                             <Form.Label>Test Cases</Form.Label>
                             
                             {
-                                this.state.testCases.map((testCase, idx) => {
+                                this.state.testCases.map((testCase, testCaseIndex) => {
                                     return (
-                                        <Card>
+                                        <Card key={testCaseIndex}>
                                             <Card.Body>
 
                                                 {
-                                                    testCase.args.map((arg, idx) => {
+                                                    testCase.args.map((arg, argIndex) => {
                                                         return (
-                                                            <Form.Group as={Row} controlId="formHorizontalEmail" key={idx}>
+                                                            <Form.Group as={Row} key={argIndex}>
                                                                 <Form.Label column sm={2}>
-                                                                arg
+                                                                {arg.name}
                                                                 </Form.Label>
                                                                 <Col sm={10}>
-                                                                <Form.Control type="text" placeholder={`Enter arg ${idx+1}`} />
+                                                                <Form.Control type="text" placeholder={`Enter arg ${argIndex+1}`} onChange={this.argumentValueChange(testCaseIndex, argIndex)} value={arg.value} />
                                                                 </Col>
                                                             </Form.Group>
                                                         );
                                                     })
                                                 }
 
-                                                <Form.Group controlId="formBasicCheckbox">
+                                                <Form.Group>
                                                     <Form.Label>Expected Result</Form.Label>
-                                                    <Form.Control controlId="expectedResult" type="text" />
+                                                    <Form.Control type="text" onChange={this.expectedResultChange(testCaseIndex)} value={testCase.value} />
                                                 </Form.Group>
 
                                             </Card.Body>
