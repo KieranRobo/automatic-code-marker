@@ -17,6 +17,7 @@ public class TestCaseArgument {
 
     @Id
     @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private int id;
 

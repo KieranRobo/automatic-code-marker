@@ -1,6 +1,8 @@
 import React from 'react';
 import ChallengeCreatorForm from './challenges/creator/ChallengeCreatorForm'
 
+import axios from "../api.service";
+
 import Select from 'react-select';
 import {Form, Button, Card, Row, Col} from 'react-bootstrap';
 import AceEditor from 'react-ace';
@@ -38,7 +40,8 @@ class NewChallenge extends React.Component {
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleDefaultCodeChange = this.handleDefaultCodeChange.bind(this)
+        this.handleDefaultCodeChange = this.handleDefaultCodeChange.bind(this);
+        this.serializeSubmission = this.serializeSubmission.bind(this);
 
     }
 
@@ -52,6 +55,8 @@ class NewChallenge extends React.Component {
 
     handleDefaultCodeChange = (newDefaultCode) => {
         this.setState({ defaultCode: newDefaultCode })
+
+        // Updates assessed method list here
     }
 
     assessedMethodChange = (selectedAssessedMethod) => {
@@ -90,11 +95,6 @@ class NewChallenge extends React.Component {
           this.setState({testCases: newTestCases});
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(this.state);
-    }
-
     handleNewTestCase = () => {
         // Create the default test case with assessed method arguments before adding
         var appendableTestCase = [];
@@ -114,6 +114,48 @@ class NewChallenge extends React.Component {
         });
 
 
+    }
+
+
+    serializeSubmission = () => {
+        const submission = {
+            name: this.state.challengeName,
+            description: this.state.description,
+            defaultCode: this.state.defaultCode,
+            test_cases: []
+        };
+
+        this.state.testCases.map((testCase) => {
+            var submissionTestCase = {
+                method_name: this.state.assessedMethod.label,
+                arguments: [],
+                expected_result: testCase.expectedResult
+            }
+
+            testCase.args.map((arg) => {
+                submissionTestCase.arguments = submissionTestCase.arguments.concat([{
+                    name: arg.name,
+                    value: arg.value,
+                    type: "INTEGER" // TODO: Hardcoded for now.
+                }]);
+            });
+
+            submission.test_cases = submission.test_cases.concat([submissionTestCase]);
+        });
+
+        console.log("Serialized Submission: " + submission);
+        return submission;
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = this.serializeSubmission();
+        axios.Challenges.new(data)
+        .then(response => {
+            console.log("Submission complete");
+        }).catch((err) => {
+        });
     }
 
     render() {

@@ -6,7 +6,9 @@ const requests = {
     get: url =>
       axios.get(`${API_ROOT}${url}`),
     post: (url, data) =>
-      axios.post(`${API_ROOT}${url}`, data)
+      axios.post(`${API_ROOT}${url}`, data),
+    put: (url, data) =>
+      axios.put(`${API_ROOT}${url}`, data)
 };
 
 const Challenges = {
@@ -20,7 +22,9 @@ const Challenges = {
         code: code
       }
       return requests.post(`/challenges/${id}/attempt`, submission)
-    }
+    },
+    new: (newChallenge) =>
+      requests.put(`/challenges`, newChallenge)
       
 };
 
