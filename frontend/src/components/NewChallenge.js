@@ -22,20 +22,51 @@ class NewChallenge extends React.Component {
         super(props);
 
         this.state = {
+            challengeName: null,
+            description: null,
+            defaultCode: null,
             assessedMethod: {
                 value: {
                     methodName: null,
                     args: []
                 },
                 label: null
-            }
+            },
+            testCases: []
+
         };
 
     }
 
     assessedMethodChange = (selectedAssessedMethod) => {
         this.setState({ assessedMethod: selectedAssessedMethod });
-      }
+
+        this.state.assessedMethod.value.args.map((arg) => {
+            this.setState({
+                testCases: this.state.testCases.args.concat([{ name: arg, value: null }])
+            })
+        });
+    }
+
+    handleNewTestCase = () => {
+        // Create the default test case with assessed method arguments before adding
+        var appendableTestCase = [];
+        this.state.assessedMethod.value.args.map((arg) => {
+            appendableTestCase = appendableTestCase.concat([{
+                name: arg,
+                value: null
+            }])
+        });
+
+        this.setState({
+            testCases: this.state.testCases.concat([{
+                args: appendableTestCase,
+                expectedResult: null
+            }])
+        });
+
+
+    }
 
     render() {
         return (
@@ -65,41 +96,50 @@ class NewChallenge extends React.Component {
 
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Label>Assessed Method</Form.Label>
-                            <Select options={methodFound} onChange={this.assessedMethodChange} />
+                            <Select value={this.state.assessedMethod} options={methodFound} onChange={this.assessedMethodChange} />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Label>Test Cases</Form.Label>
                             
-                            <div>
-                                <Card>
-                                    <Card.Body>
+                            {
+                                this.state.testCases.map((testCase, idx) => {
+                                    return (
+                                        <Card>
+                                            <Card.Body>
 
-                                    {
-                                        this.state.assessedMethod.value.args.map(arg => {
-                                            return (
-                                                <Form.Group as={Row} controlId="formHorizontalEmail" key={arg}>
-                                                    <Form.Label column sm={2}>
-                                                    {arg}
-                                                    </Form.Label>
-                                                    <Col sm={10}>
-                                                    <Form.Control type="email" placeholder="Enter arg input" />
-                                                    </Col>
+                                                {
+                                                    testCase.args.map((arg, idx) => {
+                                                        return (
+                                                            <Form.Group as={Row} controlId="formHorizontalEmail" key={idx}>
+                                                                <Form.Label column sm={2}>
+                                                                arg
+                                                                </Form.Label>
+                                                                <Col sm={10}>
+                                                                <Form.Control type="text" placeholder={`Enter arg ${idx+1}`} />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        );
+                                                    })
+                                                }
+
+                                                <Form.Group controlId="formBasicCheckbox">
+                                                    <Form.Label>Expected Result</Form.Label>
+                                                    <Form.Control controlId="expectedResult" type="text" />
                                                 </Form.Group>
-                                            );
-                                        })
-                                    }
 
-                        <Form.Group controlId="formBasicCheckbox">
-                            <Form.Label>Expected Result</Form.Label>
-                            <Form.Control type="text" />
-                        </Form.Group>
+                                            </Card.Body>
+                                        </Card>
+                                    )
+                                })
+                            }
+                            
+                            <div>
+                            <Button variant="primary" onClick={this.handleNewTestCase}>
+                                Add Test Case
+                            </Button></div>
 
-                                    
-                                    </Card.Body>
 
-                                </Card>
-                            </div>
                             <Form.Text className="text-muted">
                                 Make sure to set at least 3 test cases.
                             </Form.Text>
