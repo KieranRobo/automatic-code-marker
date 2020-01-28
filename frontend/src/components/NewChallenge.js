@@ -61,7 +61,14 @@ class NewChallenge extends React.Component {
         // Reset detected methods
         this.setState({
             detectedMethods: [],
-            testCases: []
+            testCases: [],
+            assessedMethod: {
+                value: {
+                    methodName: null,
+                    args: []
+                },
+                label: ""
+            }
         });
 
         // Updates assessed method list here
@@ -89,8 +96,6 @@ class NewChallenge extends React.Component {
                     },
                     label: line
                 };
-
-                console.log(methodDetails);
 
                 this.setState({
                     detectedMethods: this.state.detectedMethods.concat([methodDetails])
@@ -186,7 +191,6 @@ class NewChallenge extends React.Component {
             submission.test_cases = submission.test_cases.concat([submissionTestCase]);
         });
 
-        console.log("Serialized Submission: " + submission);
         return submission;
     }
 
@@ -199,6 +203,18 @@ class NewChallenge extends React.Component {
             console.log("Submission complete");
         }).catch((err) => {
         });
+    }
+
+    getAddTestCaseButton() {
+        if (this.state.assessedMethod.value.methodName == null) {
+            return(<Button variant="primary" onClick={this.handleNewTestCase} disabled>
+                    Add Test Case
+                </Button>)
+        } 
+        return(<Button variant="primary" onClick={this.handleNewTestCase}>
+                Add Test Case
+          </Button>)
+        
     }
 
     render() {
@@ -269,9 +285,10 @@ class NewChallenge extends React.Component {
                             }
                             
                             <div>
-                            <Button variant="primary" onClick={this.handleNewTestCase}>
-                                Add Test Case
-                            </Button></div>
+                            {
+                                this.getAddTestCaseButton()
+                            }
+                            </div>
 
 
                             <Form.Text className="text-muted">
