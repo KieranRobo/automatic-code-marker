@@ -34,8 +34,9 @@ class NewChallenge extends React.Component {
                 },
                 label: ""
             },
-            testCases: []
+            testCases: [],
 
+            detectedMethods: []
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -55,18 +56,60 @@ class NewChallenge extends React.Component {
 
     handleDefaultCodeChange = (newDefaultCode) => {
         this.setState({ defaultCode: newDefaultCode })
+        //console.log(this.state.defaultCode);
+
+        // Reset detected methods
+        this.setState({
+            detectedMethods: [],
+            testCases: []
+        });
 
         // Updates assessed method list here
+        this.state.defaultCode.split('\n').map(line => {
+
+            // This is horrible extraction from string. Definitely needs improved.
+            if (/def ([a-zA-Z0-9,_])+\(([a-zA-Z0-9,_,\,, ])*\):$/.test(line)) {
+                const methodName = line.split(" ")[1].split("(")[0];
+
+                let args = line.replace("def ", "").replace(methodName, "")
+                                    .replace(" ", "")
+                                    .replace("(", "")
+                                    .replace(")", "")
+                                    .replace(":","")
+                                    .split(",");
+
+                // Deals with there being one element of "" when no args.
+                if (args[0] == "") args = [];
+                                    
+                // Update detected methods
+                const methodDetails = { 
+                    value: {
+                        methodName: methodName,
+                        args: args
+                    },
+                    label: line
+                };
+
+                console.log(methodDetails);
+
+                this.setState({
+                    detectedMethods: this.state.detectedMethods.concat([methodDetails])
+                });
+            }
+        });
     }
 
-    assessedMethodChange = (selectedAssessedMethod) => {
-        this.setState({ assessedMethod: selectedAssessedMethod });
 
-        this.state.assessedMethod.value.args.map((arg) => {
+    assessedMethodChange = (selectedAssessedMethod) => {
+        this.setState({ assessedMethod: selectedAssessedMethod,
+                        testCases: []
+                    });
+
+        /*this.state.assessedMethod.value.args.map((arg) => {
             this.setState({
                 testCases: this.state.testCases.args.concat([{ name: arg, value: null }])
             })
-        });
+        });*/
     }
 
     expectedResultChange = testCaseIndex => evt => {
@@ -187,7 +230,7 @@ class NewChallenge extends React.Component {
 
                         <Form.Group>
                             <Form.Label>Assessed Method</Form.Label>
-                            <Select value={this.state.assessedMethod} options={methodFound} onChange={this.assessedMethodChange} />
+                            <Select value={this.state.assessedMethod} options={this.state.detectedMethods} onChange={this.assessedMethodChange} />
                         </Form.Group>
 
                         <Form.Group>
