@@ -121,13 +121,13 @@ class NewChallenge extends React.Component {
         const submission = {
             name: this.state.challengeName,
             description: this.state.description,
-            defaultCode: this.state.defaultCode,
+            default_code: this.state.defaultCode,
             test_cases: []
         };
 
         this.state.testCases.map((testCase) => {
             var submissionTestCase = {
-                method_name: this.state.assessedMethod.label,
+                method_name: this.state.assessedMethod.value.methodName,
                 arguments: [],
                 expected_result: testCase.expectedResult
             }
