@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Table(name="test_cases_arguments")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class TestCaseArgument {
 
     @Id
@@ -43,19 +44,5 @@ public class TestCaseArgument {
         this.argumentName = argumentName;
         this.argumentType = argumentType;
         this.argumentValue = argumentValue;
-    }
-
-    /**
-     * Provides the 'code ready' value of the argument
-     * @return code ready value of the argument.
-     */
-    @JsonIgnore
-    public String getCodeReadyArgumentValue() {
-        if (argumentType.equals("STRING")) {
-            return "\""+argumentValue+"\"";
-        }
-        else {
-            return argumentValue;
-        }
     }
 }

@@ -46,7 +46,7 @@ public class PythonCommander implements CodeCommander {
             if (args.length() > 0) {
                 args.append(",");
             }
-            args.append(currentArgument.getCodeReadyArgumentValue());
+            args.append(currentArgument.getArgumentValue());
         }
         placeholder = placeholder.replace("{ARGS}", args);
         return submittedCode + placeholder;
