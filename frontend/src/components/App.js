@@ -7,6 +7,11 @@ import Home from './Home';
 import Challenges from './Challenges';
 import ChallengeSolver from './challenges/ChallengeSolver';
 import NewChallenge from './NewChallenge';
+import Login from './Login';
+import Register from './Register';
+
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (
@@ -21,6 +26,8 @@ function App() {
         
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route exact path="/challenges" component={Challenges} />
         <Route exact path="/challenges/new" component={NewChallenge} />
         <Route exact path="/challenges/:id" component={ChallengeSolver} />
