@@ -10,6 +10,9 @@ import NewChallenge from './NewChallenge';
 import Login from './Login';
 import Register from './Register';
 
+import * as firebase from 'firebase/app';
+import firebaseConfig from './firebase/firebaseConfig';
+
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
