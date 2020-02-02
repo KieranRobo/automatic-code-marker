@@ -28,7 +28,27 @@ const Challenges = {
       
 };
 
+const Lecturers = {
+  all: () =>
+    requests.get(`/users/lecturers`),
+  detailsByEmail: (email) =>
+    requests.get(`/users/lecturers?email=${email}`),
+  new: (newLecturer) =>
+    requests.post(`/users/lecturers`, newLecturer)
+};
+
+const Students = {
+  all: () =>
+    requests.get(`/users/students`),
+  detailsByEmail: (email) =>
+    requests.get(`/users/students?email=${email}`),
+  new: (newStudent) =>
+    requests.post(`/users/students`, newStudent)
+};
+
 
 export default {
-    Challenges
+    Challenges,
+    Lecturers,
+    Students
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import firebaseConfig from './firebase/firebaseConfig';
+
+import axios from "../api.service";
 
 import {Form, Button} from 'react-bootstrap';
 
@@ -35,9 +35,22 @@ class Login extends React.Component {
 
     handleLogin = (event) => {
         event.preventDefault();
+
+        const email = this.state.email;
+        const password = this.state.password;
         
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
-            console.log("success");
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+            console.log("Firebase auth successful");
+            // Firebase auth successful. Now check internal auth that user exists.
+            
+            axios.Lecturers.detailsByEmail(email)
+            .then(response => {
+                console.log("Internal auth successful");
+                localStorage.setItem('lecturerId', response.data.id);
+                // TODO: Student login, better session management, etc.
+            }).catch((err) => {
+                console.log("Internal auth ERROR");
+            });
         })
         .catch(function(error) {
             // Handle Errors here.
@@ -54,6 +67,8 @@ class Login extends React.Component {
         const {
             user
         } = this.props;
+
+        console.log("Lecturer ID:" + localStorage.getItem('lecturerId'));
 
         return (
         <div className="App">

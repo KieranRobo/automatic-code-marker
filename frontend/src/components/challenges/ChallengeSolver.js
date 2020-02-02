@@ -6,6 +6,8 @@ import {Form, Button} from 'react-bootstrap';
 import TestCaseResults from './solver/TestCaseResults';
 import SubmissionResult from './solver/SubmissionResult';
 
+import { Redirect } from "react-router-dom";
+
 import AceEditor from 'react-ace';
 
 class ChallengeSolver extends React.Component {
@@ -81,6 +83,9 @@ class ChallengeSolver extends React.Component {
     }
 
     render() {
+        if (localStorage.getItem('lecturerId') == null) {
+            return (<Redirect to='/login' />)
+        }
         if (this.state.challenge == null) {
             return (<div>Loading...</div>)
         }

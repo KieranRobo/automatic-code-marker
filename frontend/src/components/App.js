@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 
@@ -17,6 +17,8 @@ import firebaseConfig from './firebase/firebaseConfig';
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 function App() {
+  const [isAuthenticated, userHasAuthenticated] = useState(false);
+
   return (
     <div className="App">
       
@@ -26,14 +28,16 @@ function App() {
         <Link to="/challenges"><Button variant="secondary">Challenges</Button></Link>
         <Link to="/challenges/new"><Button variant="secondary">New Challenge</Button></Link>
       
-        
+       
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/challenges" component={Challenges} />
-        <Route exact path="/challenges/new" component={NewChallenge} />
-        <Route exact path="/challenges/:id" component={ChallengeSolver} />
+        
+          <Route exact path="/" component={Home} />
+          <Route appProps={{ isAuthenticated, userHasAuthenticated }} exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/challenges" component={Challenges} />
+          <Route exact path="/challenges/new" component={NewChallenge} />
+          <Route exact path="/challenges/:id" component={ChallengeSolver} />
+       
       </Switch>
 
     </div>

@@ -7,6 +7,8 @@ import Select from 'react-select';
 import {Form, Button, Card, Row, Col} from 'react-bootstrap';
 import AceEditor from 'react-ace';
 
+import { Redirect } from "react-router-dom";
+
 const methodFound = [
     { 
         value: {
@@ -218,6 +220,9 @@ class NewChallenge extends React.Component {
     }
 
     render() {
+        if (localStorage.getItem('lecturerId') == null) {
+            return (<Redirect to='/login' />)
+        }
         return (
             <div>
                 <h2>Create New Challenge:</h2>

@@ -1,6 +1,8 @@
 import React from 'react';
 import ChallengeTable from './challenges/ChallengeTable';
 import axios from "../api.service";
+import { Redirect } from "react-router-dom";
+import Login from './Login';
 
 class Challenges extends React.Component {
 
@@ -20,6 +22,9 @@ class Challenges extends React.Component {
     }
 
     render() {
+        if (localStorage.getItem('lecturerId') == null) {
+            return (<Redirect to='/login' />)
+        }
         return (
             <div>
                 <h2>View All Challenges</h2>
