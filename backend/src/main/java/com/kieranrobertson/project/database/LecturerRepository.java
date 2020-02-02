@@ -1,10 +1,10 @@
 package com.kieranrobertson.project.database;
 
-import com.kieranrobertson.project.model.Student;
+import com.kieranrobertson.project.model.Lecturer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("studentsRepository")
-public interface StudentsRepository extends JpaRepository<Student, Integer> {
+@Repository("lecturerRepository")
+public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 }

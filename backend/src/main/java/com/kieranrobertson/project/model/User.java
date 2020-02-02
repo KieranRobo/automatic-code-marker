@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name="users")
 @NoArgsConstructor
 @Data
 @MappedSuperclass
