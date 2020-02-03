@@ -35,7 +35,9 @@ public class Class {
     )
     private List<Student> students;
 
+    @JsonProperty("class_code")
     private String classCode;
 
+    @JsonProperty("name")
     private String name;
 }
