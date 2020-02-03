@@ -40,7 +40,7 @@ public class UserController {
 
     // NOTE: Doesn't show up on swagger for some reason, but works.
     @RequestMapping(value="students", params="email", method=RequestMethod.GET)
-    public Student findStudentByEmail(@PathVariable("email") String email) {
+    public Student findStudentByEmail(@RequestParam("email") String email) {
         Optional<Student> student = userService.findStudentByEmail(email);
         if (!student.isPresent()) {
             throw new UserNotFoundException("Student with email " + email + " could not be found");
