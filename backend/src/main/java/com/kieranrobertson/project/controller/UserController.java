@@ -1,9 +1,12 @@
 package com.kieranrobertson.project.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.exception.UserNotFoundException;
 import com.kieranrobertson.project.model.Lecturer;
 import com.kieranrobertson.project.model.Student;
 import com.kieranrobertson.project.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -50,12 +53,26 @@ public class UserController {
     }
 
     @PostMapping("students")
-    public void newStudent(@RequestBody Student student) {
-        userService.newStudent(student);
+    public void newStudent(@RequestBody NewUserPost student) {
+        userService.newStudent(student.getEmail(), student.getFullName(), student.getRegistrationNumber());
     }
 
     @PostMapping("lecturers")
-    public void newLecturer(@RequestBody Lecturer lecturer) {
-        userService.newLecturer(lecturer);
+    public void newLecturer(@RequestBody NewUserPost lecturer) {
+        userService.newLecturer(lecturer.getEmail(), lecturer.getFullName(), lecturer.getRegistrationNumber());
+    }
+
+    @Data
+    @AllArgsConstructor
+    private static class NewUserPost {
+
+        @JsonProperty("email")
+        private String email;
+
+        @JsonProperty("full_name")
+        private String fullName;
+
+        @JsonProperty("registration_number")
+        private String registrationNumber;
     }
 }

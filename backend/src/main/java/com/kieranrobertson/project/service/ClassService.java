@@ -18,6 +18,10 @@ public class ClassService {
         return classRepository.findById(classId);
     }
 
+    public void newClass(Class newClass) {
+        classRepository.save(newClass);
+    }
+
     public List<Class> getClassesForLecturer(int lecturerId) {
         return classRepository.getClassesByLecturer(lecturerId);
     }

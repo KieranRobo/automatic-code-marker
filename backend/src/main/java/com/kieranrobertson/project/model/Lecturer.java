@@ -3,6 +3,7 @@ package com.kieranrobertson.project.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="lecturers")
 @Data
+@NoArgsConstructor
 public class Lecturer extends User {
 
     @JsonManagedReference

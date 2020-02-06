@@ -3,10 +3,7 @@ package com.kieranrobertson.project.controller;
 import com.kieranrobertson.project.exception.ClassNotFoundException;
 import com.kieranrobertson.project.model.Class;
 import com.kieranrobertson.project.service.ClassService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -26,5 +23,10 @@ public class ClassController {
         } else {
             return classOptional.get();
         }
+    }
+
+    @PostMapping
+    public void newClass(@RequestBody Class newClass) {
+        classService.newClass(newClass);
     }
 }

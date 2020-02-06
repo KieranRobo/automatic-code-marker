@@ -19,12 +19,25 @@ public class UserService {
     @Resource
     private LecturerRepository lecturerRepository;
 
-    public void newLecturer(Lecturer lecturer) {
-        lecturerRepository.save(lecturer);
+    /*
+    TODO: Potential use of template method design pattern here?
+     */
+    public void newLecturer(String email, String fullName, String registrationNumber) {
+        Lecturer newLecturer = new Lecturer();
+        newLecturer.setEmail(email);
+        newLecturer.setFullName(fullName);
+        newLecturer.setRegistrationNumber(registrationNumber);
+
+        lecturerRepository.save(newLecturer);
     }
 
-    public void newStudent(Student student) {
-        studentRepository.save(student);
+    public void newStudent(String email, String fullName, String registrationNumber) {
+        Student newStudent = new Student();
+        newStudent.setEmail(email);
+        newStudent.setFullName(fullName);
+        newStudent.setRegistrationNumber(registrationNumber);
+
+        studentRepository.save(newStudent);
     }
 
     public List<Lecturer> allLecturers() {
