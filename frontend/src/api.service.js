@@ -33,6 +33,8 @@ const Lecturers = {
     requests.get(`/users/lecturers`),
   detailsByEmail: (email) =>
     requests.get(`/users/lecturers?email=${email}`),
+  detailsById: (id) =>
+    requests.get(`/users/lecturers/${id}`),
   new: (newLecturer) =>
     requests.post(`/users/lecturers`, newLecturer)
 };
@@ -42,13 +44,21 @@ const Students = {
     requests.get(`/users/students`),
   detailsByEmail: (email) =>
     requests.get(`/users/students?email=${email}`),
+  detailsById: (id) =>
+    requests.get(`/users/students/${id}`),
   new: (newStudent) =>
     requests.post(`/users/students`, newStudent)
+};
+
+const Classes = {
+  all: () =>
+    requests.get(`/classes`)
 };
 
 
 export default {
     Challenges,
     Lecturers,
-    Students
+    Students,
+    Classes
 };
