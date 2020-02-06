@@ -52,8 +52,16 @@ public class UserService {
         return lecturerRepository.findLecturerByEmail(email);
     }
 
+    public Optional<Lecturer> findLecturerById(int id) {
+        return lecturerRepository.findById(id);
+    }
+
     public Optional<Student> findStudentByEmail(String email) {
         return studentRepository.findStudentByEmail(email);
+    }
+
+    public Optional<Student> findStudentById(int id) {
+        return studentRepository.findById(id);
     }
 
 }

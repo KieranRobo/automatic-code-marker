@@ -41,12 +41,32 @@ public class UserController {
         }
     }
 
+    @GetMapping("lecturers/{id}")
+    public Lecturer findLecturerById(@PathVariable("id") int id) {
+        Optional<Lecturer> lecturer = userService.findLecturerById(id);
+        if (!lecturer.isPresent()) {
+            throw new UserNotFoundException("Lecturer with ID " + id + " could not be found");
+        } else {
+            return lecturer.get();
+        }
+    }
+
     // NOTE: Doesn't show up on swagger for some reason, but works.
     @RequestMapping(value="students", params="email", method=RequestMethod.GET)
     public Student findStudentByEmail(@RequestParam("email") String email) {
         Optional<Student> student = userService.findStudentByEmail(email);
         if (!student.isPresent()) {
             throw new UserNotFoundException("Student with email " + email + " could not be found");
+        } else {
+            return student.get();
+        }
+    }
+
+    @GetMapping("students/{id}")
+    public Student findStudentById(@PathVariable("id") int id) {
+        Optional<Student> student = userService.findStudentById(id);
+        if (!student.isPresent()) {
+            throw new UserNotFoundException("Student with ID " + id + " could not be found");
         } else {
             return student.get();
         }
