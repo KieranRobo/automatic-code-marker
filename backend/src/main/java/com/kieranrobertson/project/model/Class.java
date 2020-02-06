@@ -27,13 +27,11 @@ public class Class {
     private Lecturer lecturer;
 
 
-    // TODO: FIX ME
-    //@JsonBackReference
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch=FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
     @JoinTable(
             name = "students_in_classes",
-            joinColumns = { @JoinColumn(name = "student_id") },
-            inverseJoinColumns = { @JoinColumn(name = "class_id") }
+            joinColumns = { @JoinColumn(name = "class_id") },
+            inverseJoinColumns = { @JoinColumn(name = "student_id") }
     )
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
