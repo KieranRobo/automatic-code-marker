@@ -24,6 +24,7 @@ public class Class {
     @JoinColumn(name="lecturer",nullable=false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("lecturer")
     private Lecturer lecturer;
 
 
@@ -35,7 +36,19 @@ public class Class {
     )
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("students")
     private List<Student> students;
+
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
+    @JoinTable(
+            name = "assigned_challenges",
+            joinColumns = { @JoinColumn(name = "class_id") },
+            inverseJoinColumns = { @JoinColumn(name = "challenge_id") }
+    )
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("assigned_challenges")
+    private List<CodingChallenge> assignedChallenges;
 
     @JsonProperty("class_code")
     private String classCode;

@@ -1,5 +1,6 @@
 package com.kieranrobertson.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.commanders.CodeCommander;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 
 
 @Entity
@@ -51,6 +52,10 @@ public class CodingChallenge {
     @OneToMany(targetEntity = TestCase.class, mappedBy="codingChallenge", fetch=FetchType.LAZY)
     @JsonProperty("test_cases")
     private List<TestCase> testCases;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "assignedChallenges", fetch=FetchType.LAZY)
+    private Set<Class> classes;
 
     public CodingChallenge(String name, String description, String defaultCode, List<TestCase> testCases) {
         this.name = name;
