@@ -1,10 +1,14 @@
 package com.kieranrobertson.project.service;
 
+import com.kieranrobertson.project.database.ChallengeRepository;
 import com.kieranrobertson.project.database.ClassRepository;
 import com.kieranrobertson.project.database.LecturerRepository;
 import com.kieranrobertson.project.database.StudentRepository;
+import com.kieranrobertson.project.exception.ChallengeNotFoundException;
+import com.kieranrobertson.project.exception.ClassNotFoundException;
 import com.kieranrobertson.project.exception.UserNotFoundException;
 import com.kieranrobertson.project.model.Class;
+import com.kieranrobertson.project.model.CodingChallenge;
 import com.kieranrobertson.project.model.Lecturer;
 import com.kieranrobertson.project.model.Student;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,9 @@ public class ClassService {
 
     @Resource
     private StudentRepository studentRepository;
+
+    @Resource
+    private ChallengeRepository challengeRepository;
 
     public Optional<Class> getClass(int classId) {
         return classRepository.findById(classId);
@@ -57,6 +64,29 @@ public class ClassService {
         newClass.setStudents(students);
 
         classRepository.save(newClass);
+    }
+
+    // TODO: Should these arguments be objects rather than ID's?
+    public void assignChallenge(int classId, int challengeId) {
+        Optional<Class> theClass = classRepository.findById(classId);
+        Optional<CodingChallenge> codingChallenge = challengeRepository.findById(challengeId);
+
+        // TODO: Should these checks be in the controller?
+        if (!theClass.isPresent()) {
+            throw new ClassNotFoundException("Class with ID " + classId + " does not exist.");
+        }
+        if (!codingChallenge.isPresent()) {
+            throw new ChallengeNotFoundException("Challenge with ID " + challengeId + " does not exist.");
+        }
+
+        Class actualClass = theClass.get();
+
+        List<CodingChallenge> newChallenges = actualClass.getAssignedChallenges();
+        newChallenges.add(codingChallenge.get());
+
+        actualClass.setAssignedChallenges(newChallenges);
+
+        classRepository.save(actualClass);
     }
 
     public List<Class> getClassesForLecturer(int lecturerId) {

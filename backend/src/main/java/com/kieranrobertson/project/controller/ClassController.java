@@ -32,6 +32,11 @@ public class ClassController {
         classService.newClass(newClass.getClassCode(), newClass.getName(), newClass.getLecturerId(), newClass.getStudentIds());
     }
 
+    @PutMapping("{id}/assign-challenge/{challenge_id}")
+    public void assignChallenge(@PathVariable("id") int classId, @PathVariable("challenge_id") int challengeId) {
+        classService.assignChallenge(classId, challengeId);
+    }
+
     @Data
     @AllArgsConstructor
     private static class NewClassPost {
