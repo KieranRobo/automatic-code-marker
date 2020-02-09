@@ -24,7 +24,7 @@ const Challenges = {
       return requests.post(`/challenges/${id}/attempt`, submission)
     },
     new: (newChallenge) =>
-      requests.put(`/challenges`, newChallenge)
+      requests.post(`/challenges`, newChallenge)
       
 };
 

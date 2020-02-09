@@ -4,20 +4,10 @@ import ChallengeCreatorForm from './challenges/creator/ChallengeCreatorForm'
 import axios from "../api.service";
 
 import Select from 'react-select';
-import {Form, Button, Card, Row, Col} from 'react-bootstrap';
+import {Form, Button, Card, Row, Col, Alert} from 'react-bootstrap';
 import AceEditor from 'react-ace';
 
 import { Redirect } from "react-router-dom";
-
-const methodFound = [
-    { 
-        value: {
-            methodName: 'myFirstMethod',
-            args: ['num1', 'num2']
-        },
-        label: 'myFirstMethod(num1, num2)'
-    }
-  ];
 
 class NewChallenge extends React.Component {
 
@@ -38,7 +28,8 @@ class NewChallenge extends React.Component {
             },
             testCases: [],
 
-            detectedMethods: []
+            detectedMethods: [],
+            currentStatus: "START"
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -196,17 +187,6 @@ class NewChallenge extends React.Component {
         return submission;
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-
-        const data = this.serializeSubmission();
-        axios.Challenges.new(data)
-        .then(response => {
-            console.log("Submission complete");
-        }).catch((err) => {
-        });
-    }
-
     getAddTestCaseButton() {
         if (this.state.assessedMethod.value.methodName == null) {
             return(<Button variant="primary" onClick={this.handleNewTestCase} disabled>
@@ -219,6 +199,28 @@ class NewChallenge extends React.Component {
         
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = this.serializeSubmission();
+        axios.Challenges.new(data)
+        .then(response => {
+            this.setState({currentStatus: "SUCCESS"})
+        }).catch((err) => {
+            this.setState({currentStatus: "FAILURE"})
+        });
+    }
+
+    currentStatusBanner = () => {
+        if (this.state.currentStatus == "SUCCESS") {
+            return (<Alert variant="success">New Challenge Successfully Created</Alert>)
+        } else if (this.state.currentStatus == "FAILURE") {
+            return (<Alert variant="danger">An Error Occurred with your Submission</Alert>)
+        }else {
+            return (<div></div>);
+        }
+    }
+
     render() {
         if (localStorage.getItem('lecturerId') == null) {
             return (<Redirect to='/login' />)
@@ -227,6 +229,9 @@ class NewChallenge extends React.Component {
             <div>
                 <h2>Create New Challenge:</h2>
                 
+                {
+                    this.currentStatusBanner()
+                }
 
                 <div>
                     <Form onSubmit={this.handleSubmit}>
