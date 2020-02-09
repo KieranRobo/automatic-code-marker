@@ -58,7 +58,6 @@ public class ClassService {
                 throw new UserNotFoundException("Student with ID " + studentId + " does not exist.");
             } else {
                 students.add(actualStudent.get());
-                System.out.println(actualStudent.get().getId());
             }
         }
         newClass.setStudents(students);

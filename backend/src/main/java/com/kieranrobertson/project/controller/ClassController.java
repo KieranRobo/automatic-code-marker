@@ -1,5 +1,6 @@
 package com.kieranrobertson.project.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.exception.ClassNotFoundException;
 import com.kieranrobertson.project.model.Class;
 import com.kieranrobertson.project.service.ClassService;
@@ -41,10 +42,16 @@ public class ClassController {
     @AllArgsConstructor
     private static class NewClassPost {
 
+        @JsonProperty("class_code")
         private String classCode;
+
+        @JsonProperty("name")
         private String name;
 
+        @JsonProperty("lecturer_id")
         private int lecturerId;
+
+        @JsonProperty("student_ids")
         private int[] studentIds;
     }
 }

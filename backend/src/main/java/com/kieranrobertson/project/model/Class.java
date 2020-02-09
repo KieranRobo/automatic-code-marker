@@ -50,9 +50,11 @@ public class Class {
     @JsonProperty("assigned_challenges")
     private List<CodingChallenge> assignedChallenges;
 
+    @Column(name="class_code")
     @JsonProperty("class_code")
     private String classCode;
 
+    @Column(name="name")
     @JsonProperty("name")
     private String name;
 }
