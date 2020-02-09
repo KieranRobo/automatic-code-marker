@@ -19,6 +19,7 @@ class NewClass extends React.Component {
         super(props);
 
         this.handleStudentSelection = this.handleStudentSelection.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -33,26 +34,46 @@ class NewClass extends React.Component {
     }
 
     handleClassCodeChange = (newClassCode) => {
-        this.setState({ newClass: {
-            classCode:  newClassCode.target.value ,
-            className: this.state.newClass.className,
-            students: this.state.newClass.students
-        }})
+        this.setState({ newClass: { ...this.state.newClass, classCode: newClassCode.target.value} });
     }
 
     handleClassNameChange = (newClassName) => {
-        this.setState({ newClass: {
-            classCode:  this.state.newClass.classCode,
-            className: newClassName.target.value,
-            students: this.state.newClass.students
-        }})
+        this.setState({ newClass: { ...this.state.newClass, className: newClassName.target.value} });
     }
 
     handleStudentSelection(studentId) {
-        console.log("run")
-        if (this.state.newClass.students.indexOf(studentId) == -1) {
+        var inArray = this.state.newClass.students.indexOf(studentId);
+        if (inArray == -1) {
             console.log("CHECK");
+            this.setState({ newClass: { ...this.state.newClass, students: this.state.newClass.students.concat(studentId)} });
+
+        } else {
+            console.log("UNCHECK");
+            this.state.newClass.students.splice(inArray, 1);
+            
         }
+    }
+
+    serializeNewClass = () => {
+        const newClassState = this.state.newClass;
+        return {
+            'class_code': newClassState.classCode,
+            'name': newClassState.className,
+            'lecturer_id': localStorage.getItem('lecturerId'),
+            'student_ids': newClassState.students
+        }
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = this.serializeNewClass();
+        console.log(data);
+        axios.Classes.new(this.serializeNewClass())
+        .then(response => {
+            console.log("Submission complete");
+        }).catch((err) => {
+        });
     }
 
     render() {
@@ -75,7 +96,7 @@ class NewClass extends React.Component {
                         <Form.Label>Class Name</Form.Label>
                         <Form.Control type="text" value={this.state.newClass.className} onChange={this.handleClassNameChange} />
                     </Form.Group>
-                </Form>
+                
 
                 <Table striped>
                     <thead>
@@ -92,11 +113,11 @@ class NewClass extends React.Component {
                         {
                             this.state.students.map(s => {
                                 return (
-                                        <tr key={s.id} onClick={console.log("get")}>
+                                        <tr key={s.id}>
                                             <td>
                                                 <Form.Check type="checkbox"
                                                     id={s.id}
-                                                    onClick={console.log("get")}
+                                                    onClick={() => {this.handleStudentSelection(s.id)}}
                                                 />
                                             </td>
                                             <td>{s.registration_number}</td>
@@ -113,6 +134,8 @@ class NewClass extends React.Component {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+
+                </Form>
             </div>
             
         );

@@ -54,7 +54,9 @@ const Classes = {
   all: () =>
     requests.get(`/classes`),
   assignChallenge: (classId, challengeId) => 
-    requests.put(`/classes/${classId}/assign-challenge/${challengeId}`)
+    requests.put(`/classes/${classId}/assign-challenge/${challengeId}`),
+  new: (newClass) =>
+    requests.post(`/classes`, newClass)
 };
 
 
