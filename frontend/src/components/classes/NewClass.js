@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "../../api.service";
 import { Redirect } from "react-router-dom";
 
-import {Form, Table, Button} from 'react-bootstrap';
+import {Form, Table, Button, Alert} from 'react-bootstrap';
 
 class NewClass extends React.Component {
 
@@ -12,7 +12,8 @@ class NewClass extends React.Component {
             classCode: "",
             className: "",
             students: []
-        }
+        },
+        currentStatus: "START"
     };
 
     constructor(props) {
@@ -71,9 +72,44 @@ class NewClass extends React.Component {
         console.log(data);
         axios.Classes.new(this.serializeNewClass())
         .then(response => {
-            console.log("Submission complete");
+            if (response.data.code == "SUCC001") {
+                this.setState({currentStatus: "SUCCESS"})
+            } else if (response.data.code == "ERR001") {
+                this.setState({currentStatus: "CLASS_CODE_ALREADY_EXISTS"})
+            }
         }).catch((err) => {
+            this.setState({currentStatus: "FAILURE"})
         });
+    }
+
+    currentStatusBanner = () => {
+        if (this.state.currentStatus == "SUCCESS") {
+            return (<Alert variant="success">New Class Successfully Created</Alert>)
+        } else if (this.state.currentStatus == "CLASS_CODE_ALREADY_EXISTS") {
+            return (<Alert variant="warning">A class with the same class code already exists. Please enter a new one.</Alert>)
+        } else if (this.state.currentStatus == "FAILURE") {
+            return (<Alert variant="danger">An Error Occurred with your Submission</Alert>)
+        }else {
+            return (<div></div>);
+        }
+    }
+    
+    allStudentsTable = () => {
+        this.state.students.map(s => {
+            return (
+                    <tr key={s.id}>
+                        <td>
+                            <Form.Check type="checkbox"
+                                id={s.id}
+                                onClick={() => {this.handleStudentSelection(s.id)}}
+                            />
+                        </td>
+                        <td>{s.registration_number}</td>
+                        <td>{s.full_name}</td>
+                        <td>{s.email}</td>
+                    </tr>
+            );
+        })
     }
 
     render() {
@@ -85,6 +121,9 @@ class NewClass extends React.Component {
 
             <div>
                 <h2>Create New Class</h2>
+                {
+                    this.currentStatusBanner()
+                }
 
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
