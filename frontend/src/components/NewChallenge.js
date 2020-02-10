@@ -176,8 +176,7 @@ class NewChallenge extends React.Component {
             testCase.args.map((arg) => {
                 submissionTestCase.arguments = submissionTestCase.arguments.concat([{
                     name: arg.name,
-                    value: arg.value,
-                    type: "INTEGER" // TODO: Hardcoded for now.
+                    value: arg.value
                 }]);
             });
 
