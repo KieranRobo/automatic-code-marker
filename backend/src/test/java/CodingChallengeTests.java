@@ -86,7 +86,7 @@ public class CodingChallengeTests {
     @Test
     public void correctAnswer_simpleString_test() {
         Map<TestCase, TestResult> results =
-                testChallenge1.runCode("def combineWord(word):\n" +
+                testChallenge1.submitAttempt("def combineWord(word):\n" +
                 "    return \"Hello \" +word",
                 CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -98,7 +98,7 @@ public class CodingChallengeTests {
    @Test
     public void correctAnswer_multiArgString_test() {
         Map<TestCase, TestResult> results =
-                testChallenge2.runCode("def combineWords(firstWord, secondWord):\n" +
+                testChallenge2.submitAttempt("def combineWords(firstWord, secondWord):\n" +
                                 "    return firstWord+\" \" + secondWord",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -112,7 +112,7 @@ public class CodingChallengeTests {
     @Test
     public void correctAnswer_multiArgInt_test() {
         Map<TestCase, TestResult> results =
-                testChallenge3.runCode("def int_test(num1, num2):\n" +
+                testChallenge3.submitAttempt("def int_test(num1, num2):\n" +
                                 "    return num1+num2",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -126,7 +126,7 @@ public class CodingChallengeTests {
     @Test
     public void correctAnswer_arrayLength_test() {
         Map<TestCase, TestResult> results =
-                arrayChallenge1.runCode("def getLength(arr):\n" +
+                arrayChallenge1.submitAttempt("def getLength(arr):\n" +
                                 "    return len(arr)",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -138,7 +138,7 @@ public class CodingChallengeTests {
     @Test
     public void wrongAnswer_arrayLength_test() {
         Map<TestCase, TestResult> results =
-                arrayChallenge1.runCode("def getLength(arr):\n" +
+                arrayChallenge1.submitAttempt("def getLength(arr):\n" +
                                 "    return len(arr)+1;",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -150,7 +150,7 @@ public class CodingChallengeTests {
     @Test
     public void correctAnswer_combineArrays_test() {
         Map<TestCase, TestResult> results =
-                arrayChallenge2.runCode("def combineArrays(arr1, arr2):\n" +
+                arrayChallenge2.submitAttempt("def combineArrays(arr1, arr2):\n" +
                                 "    return arr1+arr2;",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 
@@ -162,7 +162,7 @@ public class CodingChallengeTests {
     @Test
     public void wrongAnswer_combineArrays_test() {
         Map<TestCase, TestResult> results =
-                arrayChallenge2.runCode("def combineArrays(arr1, arr2):\n" +
+                arrayChallenge2.submitAttempt("def combineArrays(arr1, arr2):\n" +
                                 "    return arr1+arr2+[1];",
                         CodingChallenge.ProgrammingLanguage.PYTHON);
 

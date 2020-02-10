@@ -1,10 +1,12 @@
 package com.kieranrobertson.project.service;
 
 import com.kieranrobertson.project.database.ChallengeRepository;
+import com.kieranrobertson.project.database.SubmissionAttemptRepository;
 import com.kieranrobertson.project.database.TestCaseArgumentRepository;
 import com.kieranrobertson.project.database.TestCaseRepository;
 import com.kieranrobertson.project.exception.InvalidChallengeException;
 import com.kieranrobertson.project.model.CodingChallenge;
+import com.kieranrobertson.project.model.SubmissionAttempt;
 import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestCaseArgument;
 import org.aspectj.weaver.ast.Test;
@@ -28,6 +30,9 @@ public class ChallengeService {
 
     @Resource
     private TestCaseArgumentRepository testCaseArgumentRepository;
+
+    @Resource
+    private SubmissionAttemptRepository submissionAttemptRepository;
 
     public List<CodingChallenge> getAllChallenges() {
         return challengeRepository.findAll();
@@ -57,5 +62,10 @@ public class ChallengeService {
                 testCaseArgumentRepository.save(argument);
             }
         }
+    }
+
+    public void saveSubmissionAttempt(int studentId, int challengeId, int testsPassed, String code) {
+        SubmissionAttempt submissionAttempt = new SubmissionAttempt(studentId, challengeId, testsPassed, code);
+        submissionAttemptRepository.save(submissionAttempt);
     }
 }

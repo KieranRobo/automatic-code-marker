@@ -1,5 +1,6 @@
 package com.kieranrobertson.project.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.exception.ChallengeNotFoundException;
 import com.kieranrobertson.project.exception.CodeCompileException;
 import com.kieranrobertson.project.model.CodingChallenge;
@@ -8,8 +9,6 @@ import com.kieranrobertson.project.model.TestResult;
 import com.kieranrobertson.project.service.ChallengeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Test;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -56,23 +55,33 @@ public class ChallengeController {
         }
 
         // TODO: move all this out into service and improve logic substantially.
+        int testsPassed = 0;
         Set<TestCaseResult> testCaseResults = new TreeSet<>();
-        Map<TestCase, TestResult> runResults = codingChallenge.runCode(attempt.getCode(), attempt.getLanguage());
+        Map<TestCase, TestResult> runResults = codingChallenge.submitAttempt(attempt.getCode(), attempt.getLanguage());
         for (TestCase testCase : runResults.keySet()) {
             Object actualResult = runResults.get(testCase).getResult();
             if (actualResult.equals(testCase.getExpectedResult())) {
                 testCaseResults.add(new TestCaseResult(testCase.getId(), true, actualResult.toString()));
+                testsPassed++;
             } else {
                 testCaseResults.add(new TestCaseResult(testCase.getId(), false, actualResult.toString()));
             }
         }
+
+        challengeService.saveSubmissionAttempt(attempt.getStudentId(), id, testsPassed, attempt.getCode());
 
         return testCaseResults;
     }
 
     @Data
     private static class ChallengeAttempt {
+        @JsonProperty("student_id")
+        private int studentId;
+
+        @JsonProperty("language")
         private CodingChallenge.ProgrammingLanguage language;
+
+        @JsonProperty("code")
         private String code;
     }
 

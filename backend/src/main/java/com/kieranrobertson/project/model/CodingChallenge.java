@@ -64,7 +64,7 @@ public class CodingChallenge {
         this.testCases = testCases;
     }
 
-    public Map<TestCase, TestResult> runCode(String code, ProgrammingLanguage language) {
+    public Map<TestCase, TestResult> submitAttempt(String code, ProgrammingLanguage language) {
         //log.info("Running {} code for challenge ID {}: {}", language, id, code);
         Map<TestCase, TestResult> testResults = new HashMap<>();
         for (TestCase testCase : testCases) {
