@@ -2,7 +2,9 @@ package com.kieranrobertson.project.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.exception.ClassNotFoundException;
+import com.kieranrobertson.project.model.APIResponse;
 import com.kieranrobertson.project.model.Class;
+import com.kieranrobertson.project.model.APIErrorResponse;
 import com.kieranrobertson.project.service.ClassService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +31,12 @@ public class ClassController {
     }
 
     @PostMapping
-    public void newClass(@RequestBody NewClassPost newClass) {
+    public APIResponse newClass(@RequestBody NewClassPost newClass) {
+        if (classService.findClassByClassCode(newClass.getClassCode()).isPresent()) {
+            return new APIErrorResponse("ERR001", "A class with the same class code already exists.");
+        }
         classService.newClass(newClass.getClassCode(), newClass.getName(), newClass.getLecturerId(), newClass.getStudentIds());
+        return new APIResponse("SUCC001", "Class successfully created");
     }
 
     @PutMapping("{id}/assign-challenge/{challenge_id}")

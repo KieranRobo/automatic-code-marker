@@ -31,18 +31,12 @@ public class TestCaseArgument {
     @JsonProperty("name")
     private String argumentName;
 
-    @Column(name="argument_type")
-    @JsonProperty("type")
-    private String argumentType;
-
     // Despite being String, this can hold any type. Parsed based on argumentType value.
     @Column(name="argument_value")
     @JsonProperty("value")
     private String argumentValue;
 
-    public TestCaseArgument(String argumentName, String argumentType, String argumentValue) {
-        this.argumentName = argumentName;
-        this.argumentType = argumentType;
+    public TestCaseArgument(String argumentName, String argumentValue) {
         this.argumentValue = argumentValue;
     }
 }

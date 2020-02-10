@@ -19,34 +19,34 @@ public class CodingChallengeTests {
     public void setUpChallenges(){
         List<TestCase> testCases1 = Arrays.asList(
                 new TestCase("combineWord", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("word", "STRING", "World")
-                )), "Hello World"),
+                        new TestCaseArgument("word", "\"World\"")
+                )), "\"Hello World\""),
                 new TestCase("combineWord", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("word", "STRING", "Kieran")
-                )), "Hello Kieran")
+                        new TestCaseArgument("word", "\"Kieran\"")
+                )), "\"Hello Kieran\"")
         );
         testChallenge1 = new CodingChallenge("Test", "Test", "default code", testCases1);
 
         List<TestCase> testCases2 = Arrays.asList(
                 new TestCase("combineWords", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("firstWord", "STRING", "Hello"),
-                        new TestCaseArgument("secondWord", "STRING", "World")
-                )), "Hello World"),
+                        new TestCaseArgument("firstWord", "\"Hello\""),
+                        new TestCaseArgument("secondWord", "\"World\"")
+                )), "\"Hello World\""),
                 new TestCase("combineWords", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("firstWord", "STRING", "Kieran"),
-                        new TestCaseArgument("secondWord", "STRING", "Robertson")
-                )), "Kieran Robertson")
+                        new TestCaseArgument("firstWord", "\"Kieran\""),
+                        new TestCaseArgument("secondWord", "\"Robertson\"")
+                )), "\"Kieran Robertson\"")
         );
         testChallenge2 = new CodingChallenge("Test", "Test", "default code", testCases2);
 
         List<TestCase> testCases3 = Arrays.asList(
                 new TestCase("int_test", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("num1", "INT", "1"),
-                        new TestCaseArgument("num2", "INT", "2")
+                        new TestCaseArgument("num1", "1"),
+                        new TestCaseArgument("num2", "2")
                 )), "3"),
                 new TestCase("int_test", new ArrayList<>(Arrays.asList(
-                        new TestCaseArgument("num1", "INT", "5"),
-                        new TestCaseArgument("num2", "INT", "-3")
+                        new TestCaseArgument("num1", "5"),
+                        new TestCaseArgument("num2", "-3")
                 )), "2")
         );
         testChallenge3 = new CodingChallenge("Test", "Test", "default code", testCases3);

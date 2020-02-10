@@ -1,4 +1,12 @@
 package com.kieranrobertson.project.model;
 
-public class Response {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class APIResponse {
+
+    private String code;
+    private String message;
 }

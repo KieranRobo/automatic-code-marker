@@ -91,4 +91,8 @@ public class ClassService {
     public List<Class> getClassesForLecturer(int lecturerId) {
         return classRepository.getClassesByLecturer(lecturerId);
     }
+
+    public Optional<Class> findClassByClassCode(String classCode) {
+        return classRepository.findClassByClassCode(classCode);
+    }
 }

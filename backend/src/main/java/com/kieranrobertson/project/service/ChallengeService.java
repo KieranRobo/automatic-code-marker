@@ -3,6 +3,7 @@ package com.kieranrobertson.project.service;
 import com.kieranrobertson.project.database.ChallengeRepository;
 import com.kieranrobertson.project.database.TestCaseArgumentRepository;
 import com.kieranrobertson.project.database.TestCaseRepository;
+import com.kieranrobertson.project.exception.InvalidChallengeException;
 import com.kieranrobertson.project.model.CodingChallenge;
 import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestCaseArgument;
@@ -37,6 +38,18 @@ public class ChallengeService {
     }
 
     public void newChallenge(CodingChallenge challenge) {
+
+        if (challenge.getTestCases().isEmpty()) {
+            throw new InvalidChallengeException("No test cases were defined for a new challenge.");
+        }
+
+        for (TestCase testCase : challenge.getTestCases()) {
+            if (!challenge.getDefaultCode().contains(testCase.getMethodName())) {
+                throw new InvalidChallengeException("An assessed method was not found in the default code of a new challenge.");
+            }
+        }
+
+        // Checks complete, save new challenge.
         challengeRepository.save(challenge);
         for (TestCase testCase : challenge.getTestCases()) {
             testCaseRepository.save(testCase);

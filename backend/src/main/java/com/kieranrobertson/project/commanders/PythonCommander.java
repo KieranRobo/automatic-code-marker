@@ -3,6 +3,7 @@ package com.kieranrobertson.project.commanders;
 import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestCaseArgument;
 import com.kieranrobertson.project.model.TestResult;
+import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,15 @@ public class PythonCommander implements CodeCommander {
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
             pyInterp.exec(appendTestCase(testCase));
 
+            PyObject resultObject = pyInterp.get("result");
+
             // Results should always be stringified for compatibility.
-            testResult.setResult(pyInterp.get("result").toString());
+            String stringifiedResult = resultObject.toString();
+            if (resultObject.getType().getName().equals("str")) {
+                // Surround output with quotes to signal string.
+                stringifiedResult = "\"" + stringifiedResult + "\"";
+            }
+            testResult.setResult(stringifiedResult);
         }
         return testResult;
     }
