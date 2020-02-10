@@ -44,7 +44,7 @@ class ChallengeSolver extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        axios.Challenges.submit(this.state.challenge.id, this.state.submission)
+        axios.Challenges.submit(this.state.challenge.id, this.state.submission, "PYTHON", 1) // 1 hardcoded for now
         .then(response => {
             var testCasesPassed = (this.hasPassedTestCases(response.data) ? true : false);
             const newState = Object.assign({}, this.state, {

@@ -16,10 +16,11 @@ const Challenges = {
       requests.get(`/challenges`),
     details: (id) =>
       requests.get(`/challenges/${id}`),
-    submit: (id, code) => {
+    submit: (id, code, language, studentId) => {
       const submission = {
-        language: 'PYTHON',
-        code: code
+        language: language,
+        code: code,
+        student_id: studentId
       }
       return requests.post(`/challenges/${id}/attempt`, submission)
     },
