@@ -6,6 +6,7 @@ import 'firebase/auth';
 import axios from "../api.service";
 
 import {Form, Button} from 'react-bootstrap';
+import { Redirect } from "react-router-dom";
 
 
 
@@ -17,7 +18,8 @@ class Login extends React.Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            success: false
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -39,6 +41,7 @@ class Login extends React.Component {
         const email = this.state.email;
         const password = this.state.password;
         
+        const current = this;
         firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
             console.log("Firebase auth successful");
             // Firebase auth successful. Now check internal auth that user exists.
@@ -47,9 +50,10 @@ class Login extends React.Component {
             .then(response => {
                 console.log("Internal auth successful");
                 localStorage.setItem('lecturerId', response.data.id);
+                current.setState({success: true});
                 // TODO: Student login, better session management, etc.
             }).catch((err) => {
-                console.log("Internal auth ERROR");
+                console.log("Internal auth ERROR: " + err);
             });
         })
         .catch(function(error) {
@@ -68,8 +72,9 @@ class Login extends React.Component {
             user
         } = this.props;
 
-        console.log("Lecturer ID:" + localStorage.getItem('lecturerId'));
-
+        if (this.state.success) {
+            return (<Redirect to='/' />)
+        }
         return (
         <div className="App">
             <Form onSubmit={this.handleLogin}>
