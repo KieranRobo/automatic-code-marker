@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class CodingChallengeTests {
 
-    private CodingChallenge testChallenge1, testChallenge2, testChallenge3;
+    private CodingChallenge testChallenge1, testChallenge2, testChallenge3, arrayChallenge1, arrayChallenge2;
 
     @Before
     public void setUpChallenges(){
@@ -50,6 +50,37 @@ public class CodingChallengeTests {
                 )), "2")
         );
         testChallenge3 = new CodingChallenge("Test", "Test", "default code", testCases3);
+
+
+        // Array Tests
+        List<TestCase> arrayTestCases1 = Arrays.asList(
+                new TestCase("getLength", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr", "[]")
+                )), "0"),
+                new TestCase("getLength", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr", "[1,2]")
+                )), "2"),
+                new TestCase("getLength", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr", "[1,2,3]")
+                )), "3")
+        );
+        arrayChallenge1 = new CodingChallenge("Test", "Test", "default code", arrayTestCases1);
+
+        List<TestCase> arrayTestCases2 = Arrays.asList(
+                new TestCase("combineArrays", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr1", "[1]"),
+                        new TestCaseArgument("arr2", "[2]")
+                )), "[1,2]"),
+                new TestCase("combineArrays", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr1", "[]"),
+                        new TestCaseArgument("arr2", "[2]")
+                )), "[2]"),
+                new TestCase("combineArrays", new ArrayList<>(Arrays.asList(
+                        new TestCaseArgument("arr1", "[]"),
+                        new TestCaseArgument("arr2", "[]")
+                )), "[]")
+        );
+        arrayChallenge2 = new CodingChallenge("Test", "Test", "default code", arrayTestCases2);
     }
 
     @Test
@@ -90,6 +121,57 @@ public class CodingChallengeTests {
         }
     }
 
+
+    // Array Tests
+    @Test
+    public void correctAnswer_arrayLength_test() {
+        Map<TestCase, TestResult> results =
+                arrayChallenge1.runCode("def getLength(arr):\n" +
+                                "    return len(arr)",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+    @Test
+    public void wrongAnswer_arrayLength_test() {
+        Map<TestCase, TestResult> results =
+                arrayChallenge1.runCode("def getLength(arr):\n" +
+                                "    return len(arr)+1;",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertNotEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+    @Test
+    public void correctAnswer_combineArrays_test() {
+        Map<TestCase, TestResult> results =
+                arrayChallenge2.runCode("def combineArrays(arr1, arr2):\n" +
+                                "    return arr1+arr2;",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+    @Test
+    public void wrongAnswer_combineArrays_test() {
+        Map<TestCase, TestResult> results =
+                arrayChallenge2.runCode("def combineArrays(arr1, arr2):\n" +
+                                "    return arr1+arr2+[1];",
+                        CodingChallenge.ProgrammingLanguage.PYTHON);
+
+        for (TestCase testCase : results.keySet()) {
+            Assert.assertNotEquals(testCase.getExpectedResult(), results.get(testCase).getResult());
+        }
+    }
+
+
     @Test
     public void compilationError_test() {
         boolean compilationResult = testChallenge1.doesCompile("def-ERROR_HERE string_test(word):\n" +
@@ -97,5 +179,7 @@ public class CodingChallengeTests {
                 CodingChallenge.ProgrammingLanguage.PYTHON);
         Assert.assertFalse(compilationResult);
     }
+
+
 
 }
