@@ -8,6 +8,9 @@ import {Form, Button, Card, Row, Col, Alert} from 'react-bootstrap';
 import AceEditor from 'react-ace';
 
 import { Redirect } from "react-router-dom";
+import ChallengeDescription from './challenges/solver/ChallengeDescription';
+
+import RichTextEditor from 'react-rte';
 
 class NewChallenge extends React.Component {
 
@@ -17,7 +20,7 @@ class NewChallenge extends React.Component {
 
         this.state = {
             challengeName: '',
-            description: "",
+            description: RichTextEditor.createEmptyValue(),
             defaultCode: "",
             assessedMethod: {
                 value: {
@@ -27,6 +30,7 @@ class NewChallenge extends React.Component {
                 label: ""
             },
             testCases: [],
+            editorState: RichTextEditor.createEmptyValue(),
 
             detectedMethods: [],
             currentStatus: "START"
@@ -39,12 +43,24 @@ class NewChallenge extends React.Component {
 
     }
 
+    onChange = (value) => {
+        this.setState({value});
+        if (this.props.onChange) {
+          // Send the changes up to the parent component as an HTML string.
+          // This is here to demonstrate using `.toString()` but in a real app it
+          // would be better to avoid generating a string on each change.
+          this.props.onChange(
+            value.toString('html')
+          );
+        }
+    };
+
     handleNameChange = (newChallengeName) => {
         this.setState({ challengeName: newChallengeName.target.value })
     }
 
     handleDescriptionChange = (newDescription) => {
-        this.setState({ description: newDescription.target.value })
+        this.setState({ description: newDescription })
     }
 
     handleDefaultCodeChange = (newDefaultCode) => {
@@ -161,7 +177,7 @@ class NewChallenge extends React.Component {
     serializeSubmission = () => {
         const submission = {
             name: this.state.challengeName,
-            description: this.state.description,
+            description: this.state.description.toString('html'),
             default_code: this.state.defaultCode,
             test_cases: []
         };
@@ -241,7 +257,8 @@ class NewChallenge extends React.Component {
 
                         <Form.Group>
                             <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
+                            <RichTextEditor value={this.state.description}
+                            onChange={this.handleDescriptionChange} />
                         </Form.Group>
 
                         <Form.Group>

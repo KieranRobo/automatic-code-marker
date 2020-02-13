@@ -2,13 +2,10 @@ import React from 'react';
 import { Accordion, Card, Button, Table } from 'react-bootstrap';
 
 const TestCaseResults = props => {
-    if (!props.results) {
-        return (<div></div>);
-    }
 
     return (
         <Accordion>
-            <Table width="100%" bordered>
+            <Table width="100%" bordered size="sm">
                 <thead>
                     <tr>
                         <th width="30%">Test Input</th>
@@ -18,39 +15,51 @@ const TestCaseResults = props => {
                 </thead>
                 <tbody>
                 {
-                    props.results.map(result => {
-                        var color;
-                        if (result.success) color = ('green')
-                        else color = ('red');
+                    props.testCases.map(testCase => {
+                        var color = ('white');
+                        
 
-                        var actualTestCase;
-                        props.testCases.map(testCase => {
-                            if (testCase.id === result.id) {
-                                actualTestCase = testCase;
-                            }
-                        })
+                        let resultOutput = ('None');
+                        let rowClass = ('blankResultRow');
+                        if (props.results != null) {
+                            props.results.map(result => {
+                                if (testCase.id === result.id) {
+                                    resultOutput = result.output;
+                                    if (result.success) rowClass = ('successResultRow')
+                                    else rowClass = ('failResultRow')
+                                }
+                            })
+                        }
+
+                        
 
                         
                         return (
-                                    <tr key={result.id} style={{ backgroundColor: color }}>
+                                    <tr key={testCase.id} class={rowClass}>
                                         <td>
-                                        <Accordion.Toggle as={Button}>
-                                            {
-                                                actualTestCase.arguments.map(argument => {
-                                                    return (
-                                                        <div>{argument.name} : {argument.value}</div>
-                                                    )
-                                                })
-                                            }
-                                            </Accordion.Toggle>
+                                            <Table borderless size="sm">
+                                                <tbody>
+                                                {
+                                                    testCase.arguments.map(argument => {
+                                                        return (
+                                                            <tr class={rowClass}>
+                                                                <td width="40%">{argument.name}</td>
+                                                                <td width="60%">{argument.value}</td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+                                                </tbody>
+                                            </Table>
                                         </td>
                                         <td>
-                                            <Accordion.Toggle as={Button}>{actualTestCase.expected_result}</Accordion.Toggle>
+                                            {testCase.expected_result}
                                         </td>
                                         <td>
-                                            <Accordion.Toggle as={Button}>{result.output}</Accordion.Toggle>
+                                            {resultOutput}
                                         </td>
                                     </tr>
+                                    
                         );
                     })
                 }

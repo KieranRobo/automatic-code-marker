@@ -19,7 +19,7 @@ class ChallengeSolver extends React.Component {
             challenge: null,
             submission: null,
             testCaseResults: null,
-            result: null
+            result: []
         };
 
         this.codeChange = this.codeChange.bind(this);
@@ -91,18 +91,26 @@ class ChallengeSolver extends React.Component {
         }
         return (
         <div>
-            <div><strong>{this.state.challenge.name}</strong></div>
+            <h2>{this.state.challenge.name}</h2>
             
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <ChallengeDescription challenge={this.state.challenge}></ChallengeDescription>
+                    <hr/>
                     
+                    <h4>Solver</h4>
+                    <div>
+                        Write your code here to solve the challenge:
+                    </div><br></br>
                     <AceEditor fontSize="16px" width="100%" height="250px" mode="python" theme="github" editorProps={{ $blockScrolling: true }}
                     value={this.state.submission}
                     onChange={this.codeChange}
                 />
-
+                    <div>Test cases will be ran against the <strong>{this.state.challenge.test_cases[0].method_name}</strong> method</div>
                     <Button type="submit" size="lg">Submit Code</Button>
+
+                    <hr/>
+                    <h4>Test Cases</h4><br/>
                     <SubmissionResult result={this.state.result}></SubmissionResult>
                     <TestCaseResults testCases={this.state.challenge.test_cases} results={this.state.testCaseResults}></TestCaseResults>
                 </Form>

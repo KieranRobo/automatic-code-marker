@@ -22,6 +22,10 @@ const SubmissionResult = props => {
         <div><Alert color="primary">
             You're submission has passed all test cases. Congratulations!
         </Alert></div>);
+    } else {
+        return (
+        <div>
+            These are the test cases that will be ran against the assessed method:<br/><br/></div>);
     }
     return (<div></div>);
 };
