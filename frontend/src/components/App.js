@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Home from './Home';
 import Challenges from './Challenges';
 import Classes from './classes/Classes';
+import ClassDetails from './classes/ClassDetails';
 import ChallengeSolver from './challenges/ChallengeSolver';
 import NewChallenge from './NewChallenge';
 import Login from './Login';
@@ -56,6 +57,7 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/classes" component={Classes} />
           <Route exact path="/classes/create" component={NewClass} />
+          <Route exact path="/classes/:id" component={ClassDetails} />
           <Route exact path="/challenges" component={Challenges} />
           <Route exact path="/challenges/new" component={NewChallenge} />
           <Route exact path="/challenges/:id" component={ChallengeSolver} />

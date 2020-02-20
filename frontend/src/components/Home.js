@@ -5,7 +5,7 @@ class Home extends React.Component {
 
     
     render() {
-        if (localStorage.getItem('lecturerId') == null) {
+        if (localStorage.getItem('lecturerId') == null && localStorage.getItem('studentId') == null) {
             return (<Redirect to='/login' />)
         }
         return (

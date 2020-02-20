@@ -44,7 +44,14 @@ class ChallengeSolver extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        axios.Challenges.submit(this.state.challenge.id, this.state.submission, "PYTHON", 1) // 1 hardcoded for now
+
+        let studentId = localStorage.getItem("studentId");
+        if (studentId == null) {
+            // Lecturer submission
+            studentId = -1;
+        }
+
+        axios.Challenges.submit(this.state.challenge.id, this.state.submission, "PYTHON", studentId)
         .then(response => {
             var testCasesPassed = (this.hasPassedTestCases(response.data) ? true : false);
             const newState = Object.assign({}, this.state, {
@@ -83,7 +90,7 @@ class ChallengeSolver extends React.Component {
     }
 
     render() {
-        if (localStorage.getItem('lecturerId') == null) {
+        if (localStorage.getItem('lecturerId') == null && localStorage.getItem('studentId') == null) {
             return (<Redirect to='/login' />)
         }
         if (this.state.challenge == null) {

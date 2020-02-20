@@ -24,6 +24,7 @@ class NewClass extends React.Component {
     }
 
     componentDidMount() {
+        console.log("we here")
         axios.Students.all()
         .then(response => {
             const newState = Object.assign({}, this.state, {

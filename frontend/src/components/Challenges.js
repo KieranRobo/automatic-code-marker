@@ -8,7 +8,8 @@ class Challenges extends React.Component {
 
     state = {
         challenges: null,
-        classes: null
+        classes: null,
+        assignedChallenges: []
     };
 
     constructor(props) {
@@ -37,13 +38,16 @@ class Challenges extends React.Component {
             this.setState(newState);
             });
         } else if (localStorage.getItem('studentId') != null) {
-            axios.Students.detailsById(localStorage.getItem('student'))
+            axios.Students.detailsById(localStorage.getItem('studentId'))
             .then(response => {
                 const newState = Object.assign({}, this.state, {
-                    classes: response.data
-            });
-            
-            this.setState(newState);
+                    classes: response.data.classes
+                });
+                
+                this.setState(newState);
+                console.log(this.state);
+
+                
             });
         }
     }
@@ -55,13 +59,14 @@ class Challenges extends React.Component {
 
 
     render() {
-        if (localStorage.getItem('lecturerId') == null) {
+        if (localStorage.getItem('lecturerId') == null && localStorage.getItem('studentId') == null) {
             return (<Redirect to='/login' />)
         }
         return (
             <div>
-                <h2>View All Challenges</h2>
+                <h2>View Challenges</h2>
                 <div>Select a challenge from the list below:</div>
+                <br></br>
                 <ChallengeTable challenges={this.state.challenges} classes={this.state.classes} assignChallenge={this.assignChallenge}></ChallengeTable>
             </div>
             

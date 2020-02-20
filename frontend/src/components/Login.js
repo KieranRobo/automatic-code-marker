@@ -48,12 +48,20 @@ class Login extends React.Component {
             
             axios.Lecturers.detailsByEmail(email)
             .then(response => {
-                console.log("Internal auth successful");
                 localStorage.setItem('lecturerId', response.data.id);
                 current.setState({success: true});
                 // TODO: Student login, better session management, etc.
             }).catch((err) => {
-                console.log("Internal auth ERROR: " + err);
+                // No lecturer, now try student.
+                console.log("Attempting student login");
+                axios.Students.detailsByEmail(email)
+                .then(response => {
+                    localStorage.setItem('studentId', response.data.id);
+                    current.setState({success: true});
+                    // TODO: Student login, better session management, etc.
+                }).catch((err) => {
+                    console.log("Internal auth ERROR: " + err);
+                });
             });
         })
         .catch(function(error) {
