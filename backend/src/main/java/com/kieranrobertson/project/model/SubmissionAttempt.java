@@ -1,5 +1,6 @@
 package com.kieranrobertson.project.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -32,18 +33,22 @@ public class SubmissionAttempt {
     private Key key;
 
     @Column(name="tests_passed")
+    @JsonProperty("test_passed")
     @Getter
     private int testsPassed;
 
     @Column(name="code")
+    @JsonProperty("code")
     @Getter
     private String code;
 
-    private int getStudentId() {
+    @JsonProperty("student_id")
+    public int getStudentId() {
         return key.getStudentId();
     }
 
-    private int getChallengeId() {
+    @JsonProperty("challenge_id")
+    public int getChallengeId() {
         return key.getChallengeId();
     }
 

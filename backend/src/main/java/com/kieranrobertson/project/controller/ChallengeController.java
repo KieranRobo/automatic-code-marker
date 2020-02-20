@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kieranrobertson.project.exception.ChallengeNotFoundException;
 import com.kieranrobertson.project.exception.CodeCompileException;
 import com.kieranrobertson.project.model.CodingChallenge;
+import com.kieranrobertson.project.model.SubmissionAttempt;
 import com.kieranrobertson.project.model.TestCase;
 import com.kieranrobertson.project.model.TestResult;
 import com.kieranrobertson.project.service.ChallengeService;
@@ -68,9 +69,17 @@ public class ChallengeController {
             }
         }
 
-        challengeService.saveSubmissionAttempt(attempt.getStudentId(), id, testsPassed, attempt.getCode());
+        // -1 is a submission from a lecturer
+        if (attempt.getStudentId() != -1) {
+            challengeService.saveSubmissionAttempt(attempt.getStudentId(), id, testsPassed, attempt.getCode());
+        }
 
         return testCaseResults;
+    }
+
+    @GetMapping("{chalId}/submissions/{classId}")
+    public List<SubmissionAttempt> getChallengeAttempts(@PathVariable("chalId") int chalId, @PathVariable("classId") int classId) {
+        return challengeService.getSubmissionsFromClass(chalId, classId);
     }
 
     @Data
