@@ -61,7 +61,7 @@ class ClassDetails extends React.Component {
                                         <tr key={chal.id}>
                                             <td><strong><Link to={`/challenges/${chal.id}`}>{chal.name}</Link></strong></td>
                                             <td>
-                                                <Link to="">View Submissions</Link>
+                                                <Link to={`/classes/${this.props.match.params.id}/submissions/${chal.id}`}>View Submissions</Link>
                                             </td>
                                         </tr>
                                 );

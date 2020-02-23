@@ -16,6 +16,7 @@ import Register from './Register';
 import * as firebase from 'firebase/app';
 import firebaseConfig from './firebase/firebaseConfig';
 import NewClass from './classes/NewClass';
+import Submissions from './classes/Submissions';
 
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -58,6 +59,7 @@ function App() {
           <Route exact path="/classes" component={Classes} />
           <Route exact path="/classes/create" component={NewClass} />
           <Route exact path="/classes/:id" component={ClassDetails} />
+          <Route exact path="/classes/:classId/submissions/:chalId" component={Submissions} />
           <Route exact path="/challenges" component={Challenges} />
           <Route exact path="/challenges/new" component={NewChallenge} />
           <Route exact path="/challenges/:id" component={ChallengeSolver} />

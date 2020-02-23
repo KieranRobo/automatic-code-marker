@@ -25,8 +25,9 @@ const Challenges = {
       return requests.post(`/challenges/${id}/attempt`, submission)
     },
     new: (newChallenge) =>
-      requests.post(`/challenges`, newChallenge)
-      
+      requests.post(`/challenges`, newChallenge),
+    submissionsFromClass: (chalId, classId) => 
+      requests.get(`/challenges/${chalId}/submissions/${classId}`)
 };
 
 const Lecturers = {
