@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button';
+import {Button, Navbar, Nav, Form, FormControl} from 'react-bootstrap';
 
 import Home from './Home';
 import Challenges from './Challenges';
@@ -24,11 +24,11 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 function logoutinButton() {
   if (localStorage.getItem('lecturerId') == null && localStorage.getItem('studentId') == null) {
     return (
-      <Link to="/login"><Button variant="secondary">Login</Button></Link>
+      <Button variant="outline-info" href="/login">Login</Button>
     )
   } else {
     return (
-    <Link to="/logout"><Button variant="secondary">Logout</Button></Link>
+      <Button variant="outline-info" href="/logout">Logout</Button>
     )
   }
 }
@@ -40,13 +40,21 @@ function App() {
     <div className="App">
       
 
-      
-        <Link to="/"><Button variant="secondary">Home</Button></Link>
-        <Link to="/challenges"><Button variant="secondary">Challenges</Button></Link>
-        <Link to="/classes"><Button variant="secondary">Your Classes</Button></Link>
-        <Link to="/challenges/new"><Button variant="secondary">New Challenge</Button></Link>
-        { logoutinButton() }
-      
+      <>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="/">Automatic Code Marker</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="/challenges">View Challenges</Nav.Link>
+            <Nav.Link href="/challenges/new">Create Challenge</Nav.Link>
+            <Nav.Link href="/classes">Classes</Nav.Link>
+          </Nav>
+          <Form inline>
+          { logoutinButton() }
+          </Form>
+        </Navbar>
+        <br/>
+        
+      </>
        
       <Switch>
         
@@ -66,6 +74,7 @@ function App() {
        
       </Switch>
 
+    
     </div>
   );
 }

@@ -11,7 +11,10 @@ class Submissions extends React.Component {
 
     state = {
         submissions: [],
-        students: []
+        students: [],
+        challenge: {
+            test_cases: []
+        }
     };
 
     constructor(props) {
@@ -19,6 +22,7 @@ class Submissions extends React.Component {
     }  
 
     componentDidMount() {
+        // Get all submissions from class
         axios.Challenges.submissionsFromClass(this.props.match.params.chalId, this.props.match.params.classId)
         .then(response => {
             const newState = Object.assign({}, this.state, {
@@ -29,10 +33,21 @@ class Submissions extends React.Component {
         console.log(this.state.submissions);
         });
 
+        // Get all students for comparison
         axios.Students.all()
         .then(response => {
             const newState = Object.assign({}, this.state, {
                 students: response.data
+        });
+        
+        this.setState(newState);
+        });
+
+        // Get challenge details
+        axios.Challenges.details(this.props.match.params.chalId)
+        .then(response => {
+            const newState = Object.assign({}, this.state, {
+                challenge: response.data
         });
         
         this.setState(newState);
@@ -67,7 +82,7 @@ class Submissions extends React.Component {
                             <tr key={submission.id}>
                                 <td>{actualStudent.registration_number}</td>
                                 <td>{actualStudent.full_name}</td>
-                                <td>{submission.test_passed}</td>
+                                <td>{submission.test_passed}/{this.state.challenge.test_cases.length}</td>
                                 <td>View Submission</td>
                                 
                             </tr>
