@@ -60,7 +60,7 @@ const ChallengeTable = props => {
                                 return (
                                         <tr key={chal.id}>
                                             <td><strong><Link to={`/challenges/${chal.id}`}>{chal.name}</Link></strong></td>
-                                            <td>
+                                            <td id={`${chal.id}-assign`}>
                                                 <select id={`chal${chal.id}-class`}>
                                                     <option>---</option>
                                                 {

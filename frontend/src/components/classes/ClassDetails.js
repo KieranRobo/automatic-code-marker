@@ -11,7 +11,8 @@ class ClassDetails extends React.Component {
 
     state = {
         classDetails: null,
-        assignedChallenges: []
+        assignedChallenges: [],
+        allStudents: []
     };
 
     componentDidMount() {
@@ -23,6 +24,18 @@ class ClassDetails extends React.Component {
         
             this.setState(newState);
 
+            console.log(this.state.classDetails.students)
+            // Pull student details
+            this.state.classDetails.students.map(s => {
+                axios.Students.detailsById(s)
+                .then(student => {
+                    this.setState({
+                        allStudents: this.state.allStudents.concat(student.data)
+                      });
+                });
+            });
+
+            // Pull assigned challenge details
             this.state.classDetails.assigned_challenges.map(c => {
                 axios.Challenges.details(c)
                 .then(chalResponse => {
@@ -32,6 +45,27 @@ class ClassDetails extends React.Component {
                 });
             });
         });
+    }
+
+    assignedChallengesTableData() {
+        if (this.state.assignedChallenges.length == 0) {
+            return (
+                <tr>No challenges are currently assigned to this class.</tr>
+            )
+        }
+        let returnData = [];
+        this.state.assignedChallenges.map(chal => {
+            returnData.push(
+                <tr key={chal.id}>
+                    <td><strong><Link to={`/challenges/${chal.id}`}>{chal.name}</Link></strong></td>
+                    <td>
+                        <Link to={`/classes/${this.props.match.params.id}/submissions/${chal.id}`}>View Submissions</Link>
+                    </td>
+                </tr>
+            );
+        })
+    
+        return returnData;
     }
 
     render() {
@@ -45,6 +79,30 @@ class ClassDetails extends React.Component {
             <div>
                 <h2>Class Details</h2>
                 <p>{this.state.classDetails.name}</p>
+
+                <h3>Students</h3>
+
+                <Table striped>
+                    <thead>
+                        <tr>
+                            <td width="30%"><strong>Registration Number</strong></td>
+                            <td width="70%"><strong>Full Name</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.allStudents.map(student => {
+                                return (
+                                        <tr key={student.id}>
+                                            <td>{student.registration_number}</td>
+                                            <td>{student.full_name}</td>
+                                        </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </Table>
+
                 <h3>Assigned Challenges</h3>
 
                 <Table striped>
@@ -55,18 +113,10 @@ class ClassDetails extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            this.state.assignedChallenges.map(chal => {
-                                return (
-                                        <tr key={chal.id}>
-                                            <td><strong><Link to={`/challenges/${chal.id}`}>{chal.name}</Link></strong></td>
-                                            <td>
-                                                <Link to={`/classes/${this.props.match.params.id}/submissions/${chal.id}`}>View Submissions</Link>
-                                            </td>
-                                        </tr>
-                                );
-                            })
-                        }
+                    {
+                        
+                        this.assignedChallengesTableData()
+                    }
                     </tbody>
                 </Table>
 

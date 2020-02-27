@@ -53,7 +53,9 @@ class Challenges extends React.Component {
     }
 
     assignChallenge = (challengeId, classId) => {
-        axios.Classes.assignChallenge(challengeId, classId)
+        axios.Classes.assignChallenge(challengeId, classId).then(response => {
+            alert("Challenge assigned successfully.")
+        });
     }
 
 
