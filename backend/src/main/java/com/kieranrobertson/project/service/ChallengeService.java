@@ -66,6 +66,7 @@ public class ChallengeService {
         }
     }
 
+
     public void saveSubmissionAttempt(int studentId, int challengeId, int testsPassed, String code) {
         SubmissionAttempt submissionAttempt = new SubmissionAttempt(studentId, challengeId, testsPassed, code);
         submissionAttemptRepository.save(submissionAttempt);

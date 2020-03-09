@@ -19,9 +19,6 @@ public class UserService {
     @Resource
     private LecturerRepository lecturerRepository;
 
-    /*
-    TODO: Potential use of template method design pattern here?
-     */
     public void newLecturer(String email, String fullName, String registrationNumber) {
         Lecturer newLecturer = new Lecturer();
         newLecturer.setEmail(email);

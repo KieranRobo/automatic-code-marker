@@ -65,27 +65,18 @@ public class ClassService {
         classRepository.save(newClass);
     }
 
-    // TODO: Should these arguments be objects rather than ID's?
-    public void assignChallenge(int classId, int challengeId) {
-        Optional<Class> theClass = classRepository.findById(classId);
-        Optional<CodingChallenge> codingChallenge = challengeRepository.findById(challengeId);
+    /**
+     * Assigns a coding challenge to a class.
+     * @param theClass Class which codingChallenge should be assigned to.
+     * @param codingChallenge Coding challenge which should be assigned to theClass
+     */
+    public void assignChallenge(Class theClass, CodingChallenge codingChallenge) {
+        List<CodingChallenge> newChallenges = theClass.getAssignedChallenges();
+        newChallenges.add(codingChallenge);
 
-        // TODO: Should these checks be in the controller?
-        if (!theClass.isPresent()) {
-            throw new ClassNotFoundException("Class with ID " + classId + " does not exist.");
-        }
-        if (!codingChallenge.isPresent()) {
-            throw new ChallengeNotFoundException("Challenge with ID " + challengeId + " does not exist.");
-        }
+        theClass.setAssignedChallenges(newChallenges);
 
-        Class actualClass = theClass.get();
-
-        List<CodingChallenge> newChallenges = actualClass.getAssignedChallenges();
-        newChallenges.add(codingChallenge.get());
-
-        actualClass.setAssignedChallenges(newChallenges);
-
-        classRepository.save(actualClass);
+        classRepository.save(theClass);
     }
 
     public List<Class> getClassesForLecturer(int lecturerId) {

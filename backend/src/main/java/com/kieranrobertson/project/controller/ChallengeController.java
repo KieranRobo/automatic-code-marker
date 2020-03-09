@@ -22,11 +22,6 @@ public class ChallengeController {
     @Resource
     private ChallengeService challengeService;
 
-    @GetMapping
-    public List<CodingChallenge> allChallenges() {
-        return challengeService.getAllChallenges();
-    }
-
     @GetMapping("{id}")
     public CodingChallenge allChallenges(@PathVariable("id") int id) {
         Optional<CodingChallenge> codingChallenge = challengeService.getChallenge(id);
@@ -34,6 +29,11 @@ public class ChallengeController {
             return codingChallenge.get();
         }
         throw new ChallengeNotFoundException("Challenge with ID " + id + " could not be found.");
+    }
+
+    @GetMapping
+    public List<CodingChallenge> allChallenges() {
+        return challengeService.getAllChallenges();
     }
 
     @PostMapping
