@@ -64,8 +64,11 @@ public class CodingChallenge {
         this.testCases = testCases;
     }
 
+    public boolean doesCompile(String code, ProgrammingLanguage language) {
+        return getCommander(language, code).doesCompile();
+    }
+
     public Map<TestCase, TestResult> submitAttempt(String code, ProgrammingLanguage language) {
-        //log.info("Running {} code for challenge ID {}: {}", language, id, code);
         Map<TestCase, TestResult> testResults = new HashMap<>();
         for (TestCase testCase : testCases) {
             testResults.put(testCase,
@@ -75,9 +78,6 @@ public class CodingChallenge {
         return testResults;
     }
 
-    public boolean doesCompile(String code, ProgrammingLanguage language) {
-        return getCommander(language, code).doesCompile();
-    }
 
     private CodeCommander getCommander(ProgrammingLanguage language, String code) {
         CodeCommander codeCommander;

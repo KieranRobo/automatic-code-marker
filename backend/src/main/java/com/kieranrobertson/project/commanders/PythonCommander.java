@@ -38,6 +38,7 @@ public class PythonCommander implements CodeCommander {
             // Results should always be stringified for compatibility.
             String stringifiedResult = resultObject.toString();
             String returnType = resultObject.getType().getName();
+
             if (returnType.equals("str")) {
                 // Surround output with quotes to signal string.
                 stringifiedResult = "\"" + stringifiedResult + "\"";
