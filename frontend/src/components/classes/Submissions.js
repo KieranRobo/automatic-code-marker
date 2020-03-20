@@ -14,7 +14,8 @@ class Submissions extends React.Component {
         students: [],
         challenge: {
             test_cases: []
-        }
+        },
+        class: null
     };
 
     constructor(props) {
@@ -52,6 +53,16 @@ class Submissions extends React.Component {
         
         this.setState(newState);
         });
+
+        // Get class details
+        axios.Classes.details(this.props.match.params.classId)
+        .then(response => {
+            const newState = Object.assign({}, this.state, {
+                class: response.data
+        });
+        
+        this.setState(newState);
+        });
     }
 
     displayTable() {
@@ -83,7 +94,7 @@ class Submissions extends React.Component {
                                 <td>{actualStudent.registration_number}</td>
                                 <td>{actualStudent.full_name}</td>
                                 <td>{submission.test_passed}/{this.state.challenge.test_cases.length}</td>
-                                <td>View Submission</td>
+                                <td><Link to={`#`}>View Submission</Link></td>
                                 
                             </tr>
                         );
@@ -98,9 +109,14 @@ class Submissions extends React.Component {
         if (localStorage.getItem('lecturerId') == null) {
             return (<Redirect to='/login' />)
         }
+        if (this.state.class == null) {
+            return(<div>Loading...</div>);
+        }
         return (
             <div>
-                There have been {this.state.submissions.length} submission(s).
+                <h2>Challenge Submissions</h2>
+                
+                There have been <strong>{this.state.submissions.length} submission(s)</strong> from <strong>{this.state.class.class_code}</strong> for challenge <strong>{this.state.challenge.name}</strong>.<br></br><br></br>
                 {this.displayTable()}
             </div>
             

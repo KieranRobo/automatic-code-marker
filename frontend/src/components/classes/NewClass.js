@@ -128,48 +128,52 @@ class NewClass extends React.Component {
 
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Class Code</Form.Label>
+                        <Form.Label><strong>Class Code</strong></Form.Label>
                         <Form.Control type="text" value={this.state.newClass.classCode} onChange={this.handleClassCodeChange} />
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Class Name</Form.Label>
+                        <Form.Label><strong>Class Name</strong></Form.Label>
                         <Form.Control type="text" value={this.state.newClass.className} onChange={this.handleClassNameChange} />
                     </Form.Group>
                 
+                    <Form.Group>
+                        <Form.Label><strong>Students</strong></Form.Label>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td><strong>Registration #</strong></td>
+                                    <td><strong>Full Name</strong></td>
+                                    <td><strong>Email</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            
+                                {
+                                    this.state.students.map(s => {
+                                        return (
+                                                <tr key={s.id}>
+                                                    <td>
+                                                        <Form.Check type="checkbox"
+                                                            id={s.id}
+                                                            onClick={() => {this.handleStudentSelection(s.id)}}
+                                                        />
+                                                    </td>
+                                                    <td>{s.registration_number}</td>
+                                                    <td>{s.full_name}</td>
+                                                    <td>{s.email}</td>
+                                                </tr>
+                                        );
+                                    })
+                                }
+                                
+                            </tbody>
+                        </Table>
+                    </Form.Group>
 
-                <Table striped>
-                    <thead>
-                        <tr>
-                            <td></td>
-                            <td><strong>Registration #</strong></td>
-                            <td><strong>Full Name</strong></td>
-                            <td><strong>Email</strong></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    
-                        {
-                            this.state.students.map(s => {
-                                return (
-                                        <tr key={s.id}>
-                                            <td>
-                                                <Form.Check type="checkbox"
-                                                    id={s.id}
-                                                    onClick={() => {this.handleStudentSelection(s.id)}}
-                                                />
-                                            </td>
-                                            <td>{s.registration_number}</td>
-                                            <td>{s.full_name}</td>
-                                            <td>{s.email}</td>
-                                        </tr>
-                                );
-                            })
-                        }
-                        
-                    </tbody>
-                </Table>
+                
 
                 <Button variant="primary" type="submit">
                     Submit

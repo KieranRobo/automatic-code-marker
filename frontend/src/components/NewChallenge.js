@@ -251,18 +251,18 @@ class NewChallenge extends React.Component {
                 <div>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group>
-                            <Form.Label>Challenge Name</Form.Label>
+                            <Form.Label><strong>Challenge Name</strong></Form.Label>
                             <Form.Control type="text" value={this.state.challengeName} onChange={this.handleNameChange} />
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Description</Form.Label>
+                            <Form.Label><strong>Description</strong></Form.Label>
                             <RichTextEditor value={this.state.description}
                             onChange={this.handleDescriptionChange} />
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Default Code</Form.Label>
+                            <Form.Label><strong>Default Code</strong></Form.Label>
                             <AceEditor fontSize="16px" width="100%" height="150px" mode="python" theme="github" editorProps={{ $blockScrolling: true }}
                             value={this.state.defaultCode} onChange={this.handleDefaultCodeChange} />
                             <Form.Text className="text-muted">
@@ -271,12 +271,12 @@ class NewChallenge extends React.Component {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Assessed Method</Form.Label>
+                            <Form.Label><strong>Assessed Method</strong></Form.Label>
                             <Select value={this.state.assessedMethod} options={this.state.detectedMethods} onChange={this.assessedMethodChange} />
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Test Cases</Form.Label>
+                            <Form.Label><strong>Test Cases</strong></Form.Label>
                             
                             {
                                 this.state.testCases.map((testCase, testCaseIndex) => {

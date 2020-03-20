@@ -78,9 +78,18 @@ class ClassDetails extends React.Component {
         return (
             <div>
                 <h2>Class Details</h2>
-                <p>{this.state.classDetails.name}</p>
+                <table width="50%">
+                    <tr>
+                        <td><strong>Class Code:</strong></td>
+                        <td>{this.state.classDetails.class_code}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Class Name:</strong></td>
+                        <td>{this.state.classDetails.name}</td>
+                    </tr>
+                </table><br></br>
 
-                <h3>Students</h3>
+                <h4>Students</h4>
 
                 <Table striped>
                     <thead>
@@ -103,7 +112,7 @@ class ClassDetails extends React.Component {
                     </tbody>
                 </Table>
 
-                <h3>Assigned Challenges</h3>
+                <h4>Assigned Challenges</h4>
 
                 <Table striped>
                     <thead>

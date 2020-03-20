@@ -50,7 +50,6 @@ class Login extends React.Component {
             .then(response => {
                 localStorage.setItem('lecturerId', response.data.id);
                 current.setState({success: true});
-                // TODO: Student login, better session management, etc.
             }).catch((err) => {
                 // No lecturer, now try student.
                 console.log("Attempting student login");
