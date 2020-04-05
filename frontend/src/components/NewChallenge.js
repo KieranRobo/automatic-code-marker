@@ -12,6 +12,9 @@ import ChallengeDescription from './challenges/solver/ChallengeDescription';
 
 import RichTextEditor from 'react-rte';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
+
 class NewChallenge extends React.Component {
 
 
@@ -77,7 +80,8 @@ class NewChallenge extends React.Component {
                     args: []
                 },
                 label: ""
-            }
+            },
+            inProgress: false
         });
 
         // Updates assessed method list here
@@ -216,13 +220,18 @@ class NewChallenge extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        this.setState({inProgress: true})
 
         const data = this.serializeSubmission();
         axios.Challenges.new(data)
         .then(response => {
             this.setState({currentStatus: "SUCCESS"})
+            this.setState({inProgress: false})
+            window.scrollTo(0, 0)
         }).catch((err) => {
             this.setState({currentStatus: "FAILURE"})
+            this.setState({inProgress: false})
+            window.scrollTo(0, 0)
         });
     }
 
@@ -234,6 +243,23 @@ class NewChallenge extends React.Component {
         }else {
             return (<div></div>);
         }
+    }
+
+    createChallengeButton() {
+        if (this.state.inProgress) {
+            return(
+                <Loader
+                    type="ThreeDots"
+                    color="grey"
+                    height={50}
+                    width={50}
+                    timeout={3000} //3 secs
+                    />
+            )
+        }
+        return(<Button variant="primary" type="submit">
+                Create Challenge
+            </Button>);
     }
 
     render() {
@@ -259,6 +285,9 @@ class NewChallenge extends React.Component {
                             <Form.Label><strong>Description</strong></Form.Label>
                             <RichTextEditor value={this.state.description}
                             onChange={this.handleDescriptionChange} />
+                            <Form.Text className="text-muted">
+                                A good description will clearly explain the problem, and provide an explaination of an example.
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group>
@@ -273,6 +302,9 @@ class NewChallenge extends React.Component {
                         <Form.Group>
                             <Form.Label><strong>Assessed Method</strong></Form.Label>
                             <Select value={this.state.assessedMethod} options={this.state.detectedMethods} onChange={this.assessedMethodChange} />
+                            <Form.Text className="text-muted">
+                                The assessed method is the method which test cases are ran against.
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group>
@@ -281,9 +313,9 @@ class NewChallenge extends React.Component {
                             {
                                 this.state.testCases.map((testCase, testCaseIndex) => {
                                     return (
+                                        <div>
                                         <Card key={testCaseIndex}>
                                             <Card.Body>
-
                                                 {
                                                     testCase.args.map((arg, argIndex) => {
                                                         return (
@@ -292,7 +324,7 @@ class NewChallenge extends React.Component {
                                                                 {arg.name}
                                                                 </Form.Label>
                                                                 <Col sm={10}>
-                                                                <Form.Control type="text" placeholder={`Enter arg ${argIndex+1}`} onChange={this.argumentValueChange(testCaseIndex, argIndex)} value={arg.value} />
+                                                                <Form.Control type="text" placeholder={`Input value for argument '${arg.name}'`} onChange={this.argumentValueChange(testCaseIndex, argIndex)} value={arg.value} />
                                                                 </Col>
                                                             </Form.Group>
                                                         );
@@ -305,7 +337,9 @@ class NewChallenge extends React.Component {
                                                 </Form.Group>
 
                                             </Card.Body>
-                                        </Card>
+                                            
+                                        </Card><br/>
+                                        </div>
                                     )
                                 })
                             }
@@ -323,9 +357,9 @@ class NewChallenge extends React.Component {
                         </Form.Group>
 
 
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
+                        {
+                            this.createChallengeButton()
+                        }
                     </Form>
                 </div>
 

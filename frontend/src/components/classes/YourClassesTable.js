@@ -23,7 +23,7 @@ const YourClassesTable = props => {
                     props.classes.map(c => {
                         return (
                                 <tr key={c.id}>
-                                    <td><Link to={`/classes/${c.id}`}>{c.class_code}</Link></td>
+                                    <td><Link to={`/classes/${c.id}`}><strong>{c.class_code}</strong></Link></td>
                                     <td>{c.name}</td>
                                     <td>{c.students.length}</td>
                                 </tr>

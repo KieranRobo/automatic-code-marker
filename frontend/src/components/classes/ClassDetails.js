@@ -7,6 +7,9 @@ import {Button, Table} from 'react-bootstrap';
 import axios from "../../api.service";
 import YourClassesTable from './YourClassesTable';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
+
 class ClassDetails extends React.Component {
 
     state = {
@@ -73,7 +76,17 @@ class ClassDetails extends React.Component {
             return (<Redirect to='/login' />)
         }
         if (this.state.classDetails == null) {
-            return (<div>Loading...</div>)
+            return (
+                <div align="center">
+                    <Loader
+                    type="ThreeDots"
+                    color="grey"
+                    height={300}
+                    width={300}
+                    timeout={3000} //3 secs
+                    />
+                    <h3>Loading...</h3>
+                </div>)
         }
         return (
             <div>

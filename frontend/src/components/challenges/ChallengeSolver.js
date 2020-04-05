@@ -10,6 +10,9 @@ import { Redirect } from "react-router-dom";
 
 import AceEditor from 'react-ace';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
+
 class ChallengeSolver extends React.Component {
 
     constructor(props) {
@@ -19,7 +22,8 @@ class ChallengeSolver extends React.Component {
             challenge: null,
             submission: null,
             testCaseResults: null,
-            result: []
+            result: [],
+            submissionInProgress: false
         };
 
         this.codeChange = this.codeChange.bind(this);
@@ -45,6 +49,11 @@ class ChallengeSolver extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
 
+        const newState = Object.assign({}, this.state, {
+            submissionInProgress: true
+        });
+        this.setState(newState);
+
         let studentId = localStorage.getItem("studentId");
         if (studentId == null) {
             // Lecturer submission
@@ -56,21 +65,25 @@ class ChallengeSolver extends React.Component {
             var testCasesPassed = (this.hasPassedTestCases(response.data) ? true : false);
             const newState = Object.assign({}, this.state, {
                 testCaseResults: response.data,
-                result : (testCasesPassed ? "SUCCESS" : "TEST_CASES_FAILURE")
+                result : (testCasesPassed ? "SUCCESS" : "TEST_CASES_FAILURE"),
+                submissionInProgress: false
             });
             this.setState(newState);
+
         }).catch((err) => {
             if (err.response) {
                 if (err.response.status === 400) {
                     const newState = Object.assign({}, this.state, {
                         testCaseResults: null,
-                        result: "COMPILATION_ERROR"
+                        result: "COMPILATION_ERROR",
+                        submissionInProgress: false
                     });
                     this.setState(newState);
                 } else {
                     const newState = Object.assign({}, this.state, {
                         testCaseResults: null,
-                        result: "UNKNOWN_ERROR"
+                        result: "UNKNOWN_ERROR",
+                        submissionInProgress: false
                     });
                     this.setState(newState);
                 }
@@ -89,12 +102,40 @@ class ChallengeSolver extends React.Component {
         
     }
 
+    submitButton() {
+        if (!this.state.submissionInProgress) {
+            return(
+            <div><Button type="submit" size="lg">Submit Code</Button></div>
+            );
+        } else {
+            return(
+                <Loader
+                    type="ThreeDots"
+                    color="grey"
+                    height={50}
+                    width={50}
+                    timeout={3000} //3 secs
+                    />
+            )
+        }
+    }
+
     render() {
         if (localStorage.getItem('lecturerId') == null && localStorage.getItem('studentId') == null) {
             return (<Redirect to='/login' />)
         }
         if (this.state.challenge == null) {
-            return (<div>Loading...</div>)
+            return (
+                <div align="center">
+                    <Loader
+                    type="ThreeDots"
+                    color="grey"
+                    height={300}
+                    width={300}
+                    timeout={3000} //3 secs
+                    />
+                    <h3>Loading...</h3>
+                </div>)
         }
         return (
         <div>
@@ -114,7 +155,7 @@ class ChallengeSolver extends React.Component {
                     onChange={this.codeChange}
                 />
                     <div>Test cases will be ran against the <strong>{this.state.challenge.test_cases[0].method_name}</strong> method</div>
-                    <Button type="submit" size="lg">Submit Code</Button>
+                    { this.submitButton() }
 
                     <hr/>
                     <h4>Test Cases</h4><br/>

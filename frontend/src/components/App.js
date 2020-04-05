@@ -33,6 +33,22 @@ function logoutinButton() {
   }
 }
 
+function createChallengeLink() {
+  if (localStorage.getItem('lecturerId') != null) {
+    return (
+      <Nav.Link href="/challenges/new">Create Challenge</Nav.Link>
+    )
+  }
+}
+
+function classesLink() {
+  if (localStorage.getItem('lecturerId') != null) {
+    return (
+      <Nav.Link href="/classes">Classes</Nav.Link>
+    )
+  }
+}
+
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
 
@@ -45,8 +61,8 @@ function App() {
           <Navbar.Brand href="/">Automatic Code Marker</Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link href="/challenges">View Challenges</Nav.Link>
-            <Nav.Link href="/challenges/new">Create Challenge</Nav.Link>
-            <Nav.Link href="/classes">Classes</Nav.Link>
+            { createChallengeLink() }
+            { classesLink() }
           </Nav>
           <Form inline>
           { logoutinButton() }

@@ -42,6 +42,8 @@ class Login extends React.Component {
         const password = this.state.password;
         
         const current = this;
+
+        
         firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
             console.log("Firebase auth successful");
             // Firebase auth successful. Now check internal auth that user exists.
@@ -49,14 +51,14 @@ class Login extends React.Component {
             axios.Lecturers.detailsByEmail(email)
             .then(response => {
                 localStorage.setItem('lecturerId', response.data.id);
-                current.setState({success: true});
+                current.props.history.push('/')
             }).catch((err) => {
                 // No lecturer, now try student.
                 console.log("Attempting student login");
                 axios.Students.detailsByEmail(email)
                 .then(response => {
                     localStorage.setItem('studentId', response.data.id);
-                    current.setState({success: true});
+                    current.props.history.push('/')
                     // TODO: Student login, better session management, etc.
                 }).catch((err) => {
                     console.log("Internal auth ERROR: " + err);
@@ -70,7 +72,8 @@ class Login extends React.Component {
 
             console.log(errorCode + " " + errorMessage);
             // ...
-          });
+            });
+          
 
     }
 
@@ -79,29 +82,22 @@ class Login extends React.Component {
             user
         } = this.props;
 
-        if (this.state.success) {
-            return (<Redirect to='/' />)
-        }
         return (
         <div className="App">
+            <h2>Login</h2>
+            <p>Enter your login details below:</p>
             <Form onSubmit={this.handleLogin}>
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label><strong>Email Address</strong></Form.Label>
                     <Form.Control type="email" placeholder="Enter email"  value={this.state.email} onChange={this.handleEmailChange} />
-                    <Form.Text>
-                    We'll never share your email with anyone else.
-                    </Form.Text>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Label><strong>Password</strong></Form.Label>
+                    <Form.Control type="password" placeholder="Enter password" value={this.state.password} onChange={this.handlePasswordChange}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Submit
+                    Login
                 </Button>
             </Form>
         </div>

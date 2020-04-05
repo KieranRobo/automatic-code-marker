@@ -42,7 +42,6 @@ public class ClassControllerTests {
 
     @Test
     public void classExists() throws Exception {
-        // Assume CS123 is ID 1
         this.mockMvc.perform(get("/classes/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.class_code").value("CS123"));

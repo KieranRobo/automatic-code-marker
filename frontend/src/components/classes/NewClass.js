@@ -4,6 +4,9 @@ import { Redirect } from "react-router-dom";
 
 import {Form, Table, Button, Alert} from 'react-bootstrap';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
+
 class NewClass extends React.Component {
 
     state = {
@@ -116,6 +119,19 @@ class NewClass extends React.Component {
     render() {
         if (localStorage.getItem('lecturerId') == null) {
             return (<Redirect to='/login' />)
+        }
+        if (this.state.students.length == 0) {
+            return (
+                <div align="center">
+                    <Loader
+                    type="ThreeDots"
+                    color="grey"
+                    height={300}
+                    width={300}
+                    timeout={3000} //3 secs
+                    />
+                    <h3>Loading...</h3>
+                </div>)
         }
         return (
 

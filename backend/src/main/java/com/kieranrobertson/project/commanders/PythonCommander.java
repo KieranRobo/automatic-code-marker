@@ -23,6 +23,7 @@ public class PythonCommander implements CodeCommander {
             pyInterp.compile(submittedCode);
             return true;
         } catch (Exception ex) {
+            System.out.println(ex.toString());
             return false;
         }
     }

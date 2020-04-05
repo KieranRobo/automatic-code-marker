@@ -25,7 +25,9 @@ public class CodingChallengeTests {
                         new TestCaseArgument("word", "\"Kieran\"")
                 )), "\"Hello Kieran\"")
         );
-        testChallenge1 = new CodingChallenge("Test", "Test", "default code", testCases1);
+        testChallenge1 = new CodingChallenge("Append to Hello",
+                "Append the method argument to the end of 'Hello '",
+                "def combineWord(arg):", testCases1);
 
         List<TestCase> testCases2 = Arrays.asList(
                 new TestCase("combineWords", new ArrayList<>(Arrays.asList(

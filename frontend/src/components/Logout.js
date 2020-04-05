@@ -9,15 +9,17 @@ class Logout extends React.Component {
 
     constructor(props) {
         super(props);
+        const current = this;
         firebase.auth().signOut().then(function() {
             // TODO: obviously very poor implementation - change me.
             localStorage.clear();
+            current.props.history.push('/')
             console.log("Sign out complete.");
         })
     }
 
     render(){
-        return (<Redirect to='/login' />)
+        return (<div></div>)
     }
 
 }
