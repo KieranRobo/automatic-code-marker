@@ -8,6 +8,8 @@ import org.python.util.PythonInterpreter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Properties;
+
 public class PythonCommander implements CodeCommander {
 
     private final Logger log = LoggerFactory.getLogger(PythonCommander.class);
@@ -31,6 +33,12 @@ public class PythonCommander implements CodeCommander {
     public TestResult processTestCase(TestCase testCase) {
         log.info("Running code with test case [{}]", testCase);
         TestResult testResult = new TestResult();
+
+        Properties props = new Properties();
+        props.put("python.home",System.getenv("PYTHON_HOME"));
+
+        PythonInterpreter.initialize(System.getProperties(), props, new String[0]);
+
         try(PythonInterpreter pyInterp = new PythonInterpreter()) {
             pyInterp.exec(appendTestCase(testCase));
 
