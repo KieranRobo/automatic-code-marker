@@ -1,14 +1,16 @@
 import axios from "axios";
 
-const API_ROOT = 'http://localhost:8080';
+require('dotenv').config()
+
+const API_ROOT = process.env.REACT_APP_BACKEND_API_URL;
 
 const requests = {
     get: url =>
-      axios.get(`${API_ROOT}${url}`),
+      axios.get(`${API_ROOT}/${url}`),
     post: (url, data) =>
-      axios.post(`${API_ROOT}${url}`, data),
+      axios.post(`${API_ROOT}/${url}`, data),
     put: (url, data) =>
-      axios.put(`${API_ROOT}${url}`, data)
+      axios.put(`${API_ROOT}/${url}`, data)
 };
 
 const Challenges = {
