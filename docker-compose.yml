@@ -1,0 +1,12 @@
+version: '3'
+services:
+  final-year-project-backend:
+    image: final-year-project-backend
+    ports:
+            - "3010:8080"
+    environment:
+    - DB_HOST=***
+    - DB_PORT=3306
+    - DB_NAME=***
+    - DB_USER=***
+    - DB_PASSWORD=***
