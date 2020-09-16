@@ -25,4 +25,30 @@ Lecturers are able to do everything that students can, however to view the appli
 
 **Password:** password
 
+
+## Technologies
+Various technologies and programming languages are used to build the Automatic Code Marker
+
+### Build and Deployment
+* Docker
+* Maven
+* NPM
+
+### Backend API
+* Java
+* Spring Boot
+* Hibernate
+
+### Frontend UI
+* ReactJS
+* Javascript
+* HTML/CSS
+
+### Database
+* MySQL
+
+
+
+
+
    [demo-url]: <http://marker.kieranrobertson.com/>
